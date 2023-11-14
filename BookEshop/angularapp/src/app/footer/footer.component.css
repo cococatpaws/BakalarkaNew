@@ -1,0 +1,24 @@
+footer {
+  width: 100%;
+}
+
+  footer.absolute {
+    position: absolute;
+    bottom: 0;
+  }
+
+a {
+  color: white;
+}
+
+  a.disabled {
+    color: gray;
+  }
+
+  a:hover, a:focus {
+    color: orange;
+  }
+
+  a:focus {
+    text-decoration: underline;
+  }

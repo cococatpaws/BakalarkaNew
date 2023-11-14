@@ -1,0 +1,199 @@
+<div class="books">
+  <div class="row">
+    <div class="col-auto px-0 py-2">
+      <a routerLink="/home"><i class="bi bi-house"></i></a>
+    </div>
+    <div class="col-auto px-1 py-2">
+      <p> > </p>
+    </div>
+    <div class="col-auto px-0 py-2">
+      <a routerLink="/knihy"> Knihy</a>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-xs-12 col-sm-3 col-md-2"
+         [ngClass]="{'hide-on-xs': sidebarShown === false}">
+      <h4>Žáner</h4>
+      <div *ngFor="let genre of genres" class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+          {{genre}}
+        </label>
+      </div>
+      <hr>
+      <h4>Jazyk</h4>
+      <div *ngFor="let language of languages" class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+          {{language}}
+        </label>
+      </div>
+      <hr>
+      <h4>Nové</h4>
+      <div *ngFor="let newRelease of newReleases" class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+          {{newRelease}}
+        </label>
+      </div>
+      <hr>
+    </div>
+    <div class="col-xs-12 col-sm-9 col-md-10" [ngClass]="{'hide-on-xs': sidebarShown === true}">
+      <div class="row justify-content-between">
+        <div *ngFor="let filter of barFilters" class="col-auto px-0 hide">
+          <button class="btn btn-link">{{filter}}</button>
+        </div>
+        <div class="col-auto">
+          <div class="dropdown-center show-on-small">
+            <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+              Filter
+            </button>
+            <ul class="dropdown-menu">
+              <li *ngFor="let filter of barFilters"><a class="dropdown-item" href="#">{{filter}}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-auto">
+          <p>Počet výsledkov: 8</p>
+        </div>
+        <hr>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+          <div class="row justify-content-between">
+            <img class="img-fluid" src="../../assets/books/iron-flame.jpg" alt="">
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-auto">
+              <p class="desc">REBECCA YARROS</p>
+            </div>
+            <div class="col-auto">
+              <p class="desc">19,95€</p>
+            </div>
+          </div>
+          <div class="row">
+            <p class="title">Iron Flame</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+          <div class="row justify-content-between">
+            <img class="img-fluid h-md-250 h-lg-355" src="../../assets/books/holly.jpg" alt="">
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-auto">
+              <p class="desc">STEPHEN KING</p>
+            </div>
+            <div class="col-auto">
+              <p class="desc">32,50€</p>
+            </div>
+          </div>
+          <div class="row">
+            <p class="title">Holly</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+          <div class="row justify-content-between">
+            <img class="img-fluid" src="../../assets/books/things-we-left-behind.jpg" alt="">
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-auto">
+              <p class="desc">LUCY SCORE</p>
+            </div>
+            <div class="col-auto">
+              <p class="desc">13,95€</p>
+            </div>
+          </div>
+          <div class="row">
+            <p class="title">Things We Left Behind</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+          <div class="row justify-content-between">
+            <img class="img-fluid" src="../../assets/books/counting-the-cost.jpg" alt="">
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-auto">
+              <p class="desc">JILL DUGGAR</p>
+            </div>
+            <div class="col-auto">
+              <p class="desc">17,95€</p>
+            </div>
+          </div>
+          <div class="row">
+            <p class="title">Counting The Cost</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+          <div class="row justify-content-between">
+            <img class="img-fluid" src="../../assets/books/going-infinite.jpg" alt="">
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-auto">
+              <p class="desc">MICHAEL LEWIS</p>
+            </div>
+            <div class="col-auto">
+              <p class="desc">17,78€</p>
+            </div>
+          </div>
+          <div class="row">
+            <p class="title">Going Infinite</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+          <div class="row justify-content-between">
+            <img class="img-fluid" src="../../assets/books/the-democrat-party-hates-america.jpg" alt="">
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-auto">
+              <p class="desc">MARK R. LEVIN</p>
+            </div>
+            <div class="col-auto">
+              <p class="desc">16,65€</p>
+            </div>
+          </div>
+          <div class="row">
+            <p class="title">The Democrat Party Hates America</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+          <div class="row justify-content-between">
+            <img class="img-fluid" src="../../assets/books/upon-waking.jpg" alt="">
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-auto">
+              <p class="desc">JACKIE HILL PERRY</p>
+            </div>
+            <div class="col-auto">
+              <p class="desc">16,00€</p>
+            </div>
+          </div>
+          <div class="row">
+            <p class="title">Upon Waking</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+          <div class="row justify-content-between">
+            <img class="img-fluid" src="../../assets/books/build-the-life-you-want.jpg" alt="">
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-aut">
+              <p class="desc">ARTHUR C. BROOKS</p>
+            </div>
+            <div class="col-auto">
+              <p class="desc">16,95€</p>
+            </div>
+          </div>
+          <div class="row">
+            <p class="title">Build The Life You Want</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hide-button">
+    <button type="button" class="btn btn-light btn-circle" (click)="showSidebar()">
+      <i class="bi bi-layout-text-sidebar-reverse"></i>
+    </button>
+  </div>
+</div>

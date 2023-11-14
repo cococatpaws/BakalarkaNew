@@ -1,0 +1,32 @@
+
+h4 {
+  color: grey;
+}
+
+div {
+  padding: 1vw;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+  a:hover {
+    color: orange;
+  }
+
+.btn {
+  border: none;
+}
+
+.sidebar {
+  min-height: 80vh;
+  height: auto !important;
+  height: 100%;
+}

@@ -1,0 +1,149 @@
+<div class="row">
+  <img class="banner" src="../../assets/banner2.jpg" alt="">
+</div>
+<hr>
+
+<div class="row justify-content-center">
+  <ul class="col-auto">
+    <li class="py-2 px-1 fw-bold"><a href="#" (click)="onClick($event, 0)" [ngClass]="{'selected': bookDisplaySelected === bookDisplays[0]}">{{bookDisplays[0]}}</a></li>
+  </ul>
+  <ul class="col-auto">
+    <li class="py-2 px-1 fw-bold"><a href="#" (click)="onClick($event, 1)" [ngClass]="{'selected': bookDisplaySelected === bookDisplays[1]}">{{bookDisplays[1]}}</a></li>
+  </ul>
+  <ul class="col-auto">
+    <li class="py-2 px-1 fw-bold"><a href="#" (click)="onClick($event, 2)" [ngClass]="{'selected': bookDisplaySelected === bookDisplays[2]}">{{bookDisplays[2]}}</a></li>
+  </ul>
+</div>
+
+<div class="books">
+  <div class="row justify-content-center">
+    <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+      <div class="row justify-content-between">
+        <img class="img-fluid" src="../../assets/books/iron-flame.jpg" alt="">
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-auto">
+          <p class="desc">REBECCA YARROS</p>
+        </div>
+        <div class="col-auto">
+          <p class="desc">19,95€</p>
+        </div>
+      </div>
+      <div class="row">
+        <p class="title">Iron Flame</p>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+      <div class="row justify-content-between">
+        <img class="img-fluid h-md-250 h-lg-355" src="../../assets/books/holly.jpg" alt="">
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-auto">
+          <p class="desc">STEPHEN KING</p>
+        </div>
+        <div class="col-auto">
+          <p class="desc">32,50€</p>
+        </div>
+      </div>
+      <div class="row">
+        <p class="title">Holly</p>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+      <div class="row justify-content-between">
+        <img class="img-fluid" src="../../assets/books/things-we-left-behind.jpg" alt="">
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-auto">
+          <p class="desc">LUCY SCORE</p>
+        </div>
+        <div class="col-auto">
+          <p class="desc">13,95€</p>
+        </div>
+      </div>
+      <div class="row">
+        <p class="title">Things We Left Behind</p>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+      <div class="row justify-content-between">
+        <img class="img-fluid" src="../../assets/books/counting-the-cost.jpg" alt="">
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-auto">
+          <p class="desc">JILL DUGGAR</p>
+        </div>
+        <div class="col-auto">
+          <p class="desc">17,95€</p>
+        </div>
+      </div>
+      <div class="row">
+        <p class="title">Counting The Cost</p>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+      <div class="row justify-content-between">
+        <img class="img-fluid" src="../../assets/books/going-infinite.jpg" alt="">
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-auto">
+          <p class="desc">MICHAEL LEWIS</p>
+        </div>
+        <div class="col-auto">
+          <p class="desc">17,78€</p>
+        </div>
+      </div>
+      <div class="row">
+        <p class="title">Going Infinite</p>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+      <div class="row justify-content-between">
+        <img class="img-fluid" src="../../assets/books/the-democrat-party-hates-america.jpg" alt="">
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-auto">
+          <p class="desc">MARK R. LEVIN</p>
+        </div>
+        <div class="col-auto">
+          <p class="desc">16,65€</p>
+        </div>
+      </div>
+      <div class="row">
+        <p class="title">The Democrat Party Hates America</p>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+      <div class="row justify-content-between">
+        <img class="img-fluid" src="../../assets/books/upon-waking.jpg" alt="">
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-auto">
+          <p class="desc">JACKIE HILL PERRY</p>
+        </div>
+        <div class="col-auto">
+          <p class="desc">16,00€</p>
+        </div>
+      </div>
+      <div class="row">
+        <p class="title">Upon Waking</p>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2">
+      <div class="row justify-content-between">
+        <img class="img-fluid" src="../../assets/books/build-the-life-you-want.jpg" alt="">
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-aut">
+          <p class="desc">ARTHUR C. BROOKS</p>
+        </div>
+        <div class="col-auto">
+          <p class="desc">16,95€</p>
+        </div>
+      </div>
+      <div class="row">
+        <p class="title">Build The Life You Want</p>
+      </div>
+    </div>
+  </div>
+</div>

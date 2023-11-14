@@ -1,0 +1,13 @@
+<div class="sidebar">
+  <h4>Informácie o nákupe</h4>
+  <hr class="border-2">
+  <ul>
+    <li *ngFor="let object of links">
+      <a class='btn btn-link px-0' [ngClass]="{disabled: object.link === ''}" routerLink="{{object.link}}">
+        <i class="bi bi-caret-right-fill"></i>
+        {{object.title}}
+      </a>
+      <hr class="border-2">
+    </li>
+  </ul>
+</div>

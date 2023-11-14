@@ -1,0 +1,98 @@
+ul, hr, button {
+  padding: 0;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.row {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+a, button {
+  text-decoration: none;
+}
+
+p {
+  margin: 0;
+}
+
+hr {
+  margin: 0 0 0 5;
+}
+
+button {
+  color: black;
+}
+
+a, .bi-house, .desc {
+  color: grey;
+}
+
+.bi-house {
+  margin-left: 1vw;
+}
+
+  button:hover, i, .selected, .btn-circle, a:hover, .bi-house:hover {
+    color: orange;
+  }
+
+.selected {
+  text-decoration: underline;
+  text-underline-offset: 0.25vw;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.desc {
+  font-size: 0.8rem;
+}
+
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  padding: 10px 10px;
+  border-radius: 35px;
+  font-size: 1.5em;
+  text-align: center;
+  line-height: 1.33;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border: solid 1px;
+}
+
+@media(max-width:576px) {
+  .hide-on-xs {
+    display: none;
+  }
+}
+
+@media(min-width:577px) {
+  .hide-button {
+    display: none;
+  }
+}
+
+@media(max-width: 1000px) {
+  .hide {
+    display: none;
+  }
+}
+
+@media(min-width: 1000px) {
+  .show-on-small {
+    display: none;
+  }
+}
+
+@media (min-width: 3840px) {
+  .col-4k-2 {
+    flex-basis: 20%;
+  }
+}

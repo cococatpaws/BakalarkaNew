@@ -1,0 +1,56 @@
+.row {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+hr, img.banner {
+  padding: 0;
+}
+
+hr, div.row.justify-content-center, p {
+  margin: 0;
+}
+
+img.banner {
+  width: 100vw;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+  a:hover {
+    color: orange;
+  }
+
+.selected {
+  text-decoration: underline;
+  text-decoration-color: orange;
+  text-underline-offset: 0.25vw;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.desc {
+  color: grey;
+  font-size: 0.8rem;
+}
+
+.column {
+  max-width: 80%;
+  height: auto;
+}
+
+@media (min-width: 3840px) {
+  .col-4k-2 {
+    flex-basis: 20%; /* Customize the column width for 4K screens */
+  }
+}

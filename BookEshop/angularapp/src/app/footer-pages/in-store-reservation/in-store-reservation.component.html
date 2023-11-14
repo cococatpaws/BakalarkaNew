@@ -1,0 +1,82 @@
+<div class="content-box">
+  <div class="row">
+    <div class="col-xs-12 col-md-4 col-lg-3 px-2 sidebar"
+         [ngClass]="{'hide-on-xs': sidebarShown === false}">
+      <app-sidebar-shopping-info></app-sidebar-shopping-info>
+    </div>
+    <div class="col-12 col-md-8 col-lg-9 mx-0 content px-2 px-md-5" [ngClass]="{'hide-on-xs': sidebarShown === true}">
+      <h2>Rezervácia v kníhkupectve</h2>
+      <p>Naše kníhkupectvo ponúka možnosť rezervácie knihy v kníhkupectve, ak je požadovaná kniha dostupná v predajni.</p>
+      <h2>Výhody rezervácie knihy na predajni:</h2>
+      <ul>
+        <li>Nemusíte knihu hľadať sami</li>
+        <li>Urýchli vám to nákup</li>
+      </ul>
+
+      <h3>Ako postupovať pri rezervácií knihy</h3>
+      <ol>
+        <li>Vyberte si knihu z našej ponuky, ktorá je dostupná na sklade vo vami vybranej predajni.</li>
+        <li>Kliknite na tlačidlo "Rezervácia na predajni."</li>
+        <li>Potvrďte rezerváciu vyplnením vášho mena a e-mailu.</li>
+        <li>Počkajte na e-mail, ktorý vás bude informovať o prichystaní vašej zarezervovanej knihy.</li>
+      </ol>
+      <h3>Časté otázky</h3>
+      <div class="row justify-content-between">
+        <div class="col-auto px-0">
+          <a class="fw-bold questions" data-bs-toggle="collapse" href="#question1" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Kedy bude moja kniha pripravená na vyzdvihnutie?
+          </a>
+        </div>
+        <div class="col-auto px-0">
+          <i class="bi bi-caret-down-fill"></i>
+        </div>
+      </div>
+      <hr class="my-0 border-2">
+      <div class="collapse" id="question1">
+        <div class="card card-body">
+          Po odoslaní rezervácie vám zvyčajne pripravíme knihu do 2 hodín. Niekedy to však ale môže trvať viac.
+          Knihu si vyzdvihujte až po prijatí e-mailu o pripravenosti knihy.
+        </div>
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-auto mt-4 mt-4 px-0">
+          <a class="fw-bold questions" data-bs-toggle="collapse" href="#question2" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Koľko stojí rezervácia knihy na predajni?
+          </a>
+        </div>
+        <div class="col-auto mt-4 px-0">
+          <i class="bi bi-caret-down-fill"></i>
+        </div>
+      </div>
+      <hr class="my-0 border-2">
+      <div class="collapse" id="question2">
+        <div class="card card-body">
+          Rezervácia knihy na predajni je úplne zadarmo, nebudete za ňu platiť nič.
+        </div>
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-auto mt-4 px-0">
+          <a class="fw-bold questions" data-bs-toggle="collapse" href="#question3" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Koľko času mám na vyzdvihnutie knihy?
+          </a>
+        </div>
+        <div class="col-auto mt-4 px-0">
+          <i class="bi bi-caret-down-fill"></i>
+        </div>
+      </div>
+      <hr class="my-0 border-2">
+      <div class="collapse" id="question3">
+        <div class="card card-body mb-4">
+          Knihu budete mať rezervovanú na ten deň, v ktorý bola rezervovaná. Ak si pre ňu neprídete, tak knihu
+          jednoducho dáme naspať do ponuky a rezervácia sa ruší. Ak viete, že nebudete schopní si knihu v ten
+          deň vyzdvihnúť, môžete e-mailom požiadat o predĺženei rezervácie.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hide-button">
+    <button type="button" class="btn btn-light btn-circle" (click)="showSidebar()">
+      <i class="bi bi-layout-text-sidebar-reverse"></i>
+    </button>
+  </div>
+</div>

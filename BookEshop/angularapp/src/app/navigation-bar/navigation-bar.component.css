@@ -1,0 +1,101 @@
+.upper-bar {
+  background-color: #303030;
+  padding: 1vw 3vw 1vw 3vw;
+}
+
+  .upper-bar .search-bar {
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+  }
+
+/*SEARCH BAR*/
+.input-search-bar {
+  padding-left: 0;
+}
+
+.filter-chooser {
+  padding-right: 0;
+}
+
+input, .search-bar input:focus, .navbar-toggler:focus, .search-bar button {
+  border: none;
+}
+
+input {
+  width: 100%;
+  min-width: 50vw;
+}
+
+.search-bar input:focus, .navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.search-bar a {
+  color: #7B7B7B;
+}
+
+.search-bar button {
+  background-color: #CFCFCF;
+  color: #5c5c5c;
+}
+
+.shopping_basket:hover, .nav-link:hover, .nav-link:focus {
+  color: orange;
+}
+
+/*NAVIGATION BAR*/
+nav {
+  padding: 0;
+}
+
+.nav-link {
+  color: white;
+  margin-right: 30px;
+  padding: 12px 0 12px 0;
+}
+
+  .nav-link.disabled {
+    color: grey;
+  }
+
+  .nav-link:hover {
+    background-color: #5c5c5c;
+  }
+
+  .nav-link:focus, .nav-link:hover {
+    text-decoration: underline;
+  }
+
+button.navbar-toggler, button.menu {
+  margin-left: 1%;
+}
+
+@media (max-width: 769px) {
+  .midsize {
+    display: flex;
+    justify-content: center;
+  }
+
+  nav {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .hide-on-extrasmall {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .hide-on-small {
+    display: none !important;
+  }
+}

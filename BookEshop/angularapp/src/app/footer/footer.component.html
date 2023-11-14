@@ -1,0 +1,9 @@
+<footer class="footer bg-dark text-center py-3 mt-auto">
+  <div class="container-fluid align-self-bottom">
+    <div class="row justify-content-center">
+      <div class="col-auto text-center" *ngFor="let object of links">
+        <a class="nav-link" [ngClass]="{disabled: object.link === ''}" routerLink="{{object.link}}">{{object.title}}</a>
+      </div>
+    </div>
+  </div>
+</footer>

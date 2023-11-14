@@ -1,0 +1,63 @@
+<div class="header">
+  <div class="upper-bar hide-on-extrasmall">
+    <div class="row midsize">
+      <div class="col-auto search-bar">
+        <div class="row">
+          <div class="col-auto filter-chooser">
+            <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="book-dropdown"
+                    data-bs-toggle="dropdown">
+              {{this.filter}}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="book-dropdown">
+              <li *ngFor="let option of drodpownOptions">
+                <a class="dropdown-item" (click)="selectItem(option)">{{ option }}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-auto input-search-bar">
+            <input class="col-6" type="text" placeholder="Hľadaj..">
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-secondary btn-sm"><i class="bi bi-search"></i> Hľadaj</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-auto align-self-end d-none d-md-block">
+        <button class="btn btn-dark shopping_basket"><i class="bi bi-basket"></i> Nákupný košík</button>
+      </div>
+    </div>
+  </div>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse bg-dark" id="navbarNav">
+      <ul class="navbar-nav mx-auto" aria-labelledby="menu">
+        <li class="nav-item active midsize">
+          <a class="nav-link font-weight-bold" routerLink="/home">Domov</a>
+        </li>
+        <li class="nav-item midsize">
+          <a class="nav-link" routerLink="/knihy">Knihy</a>
+        </li>
+        <li class="nav-item midsize">
+          <a class="nav-link disabled" href="#">E-Knihy</a>
+        </li>
+        <li class="nav-item midsize">
+          <a class="nav-link disabled" href="#">AudioKnihy</a>
+        </li>
+        <li class="nav-item last midsize d-md-none">
+          <a class="nav-link disabled" href="#"><i class="bi bi-person-circle"></i> Prihlásiť sa</a>
+        </li>
+        <li class="col-auto midsize d-md-none">
+          <a class="nav-link disabled"><i class="bi bi-basket"></i> Nákupný košík</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto d-none d-md-block">
+        <li class="nav-item last">
+          <a class="nav-link disabled" href="#"><i class="bi bi-person-circle"></i> Prihlásiť sa</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+</div>
