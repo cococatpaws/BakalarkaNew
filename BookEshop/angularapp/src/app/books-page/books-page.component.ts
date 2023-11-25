@@ -40,4 +40,20 @@ export class BooksPageComponent {
     this.sidebarShown = !this.sidebarShown;
     console.log(this.sidebarShown);
   }
+
+  deleteBook(bookId: number | undefined): void {
+    if (bookId != undefined) {
+      this.bookPageService.deleteBook(bookId).subscribe({
+        next: () => {
+          console.log(`Kniha s ID ${bookId} bola úspešne odstránená.`);
+          // Tu môžete vykonať dodatočné akcie po odstránení knihy
+          window.location.reload();
+        },
+        error: (error) => {
+          console.error(`Chyba pri odstraňovaní knihy s ID ${bookId}:`, error);
+          // Tu môžete zobraziť chybovú správu používateľovi
+        },
+      });
+    }
+  }
 }

@@ -67,8 +67,19 @@ a, .bi-house, .desc {
   border: solid 1px;
 }
 
-@media(max-width:576px) {
-  .hide-on-xs {
+.btn-icon {
+  width: 30px;
+  height: 30px;
+  padding: 5px 5px;
+  border-radius: 35px;
+  font-size: 1.2em;
+  text-align: center;
+  line-height: 0.8;
+  border: solid 1px gray;
+}
+
+ @media(max-width:576px) {
+    .hide-on-xs {
     display: none;
   }
 }
