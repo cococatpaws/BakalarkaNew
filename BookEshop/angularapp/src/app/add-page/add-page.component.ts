@@ -58,6 +58,7 @@ export class AddPageComponent {
     this.bookPageService.saveBookInDB(book).subscribe({
       next: (response: Book) => {
         console.log('Údaje úspešne odoslané na server', response);
+        window.location.reload();
       },
       error: (error: any) => {
         console.error('Chyba pri odosielaní údajov na server', error);

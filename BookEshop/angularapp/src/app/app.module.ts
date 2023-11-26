@@ -13,6 +13,8 @@ import { InStoreReservationComponent } from './footer-pages/in-store-reservation
 import { BooksPageComponent } from './books-page/books-page.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AddPageComponent } from './add-page/add-page.component';
+import { BookFormComponent } from './book-form/book-form.component';
+import { EditBookPageComponent } from './edit-book-page/edit-book-page.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { AddPageComponent } from './add-page/add-page.component';
     AboutUsComponent,
     InStoreReservationComponent,
     BooksPageComponent,
-    AddPageComponent
+    AddPageComponent,
+    BookFormComponent,
+    EditBookPageComponent
   ],
   imports: [
     BrowserModule, HttpClientModule, AppRoutingModule, FormsModule

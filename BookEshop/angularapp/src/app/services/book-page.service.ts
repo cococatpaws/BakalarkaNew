@@ -35,4 +35,39 @@ export class BookPageService {
   deleteBook(bookId: number) {
     return this.http.delete<number>(`${this.apiUrl}/knihy`, { body: bookId });
   }
-}
+
+  getBookById(bookId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/edit-book/${bookId}`).pipe(
+      map(response => {
+        if (response && response.value) {
+          return {
+            bookId: response.value.bookId,
+            title: response.value.title,
+            description: response.value.description,
+            quantityInStock: response.value.quantityInStock,
+            coverImageURL: response.value.coverImageURL,
+            genre: response.value.genre,
+            price: response.value.price,
+            publisher: response.value.publisher,
+            numberOfPages: response.value.numberOfPages,
+            bookFormat: response.value.bookFormat,
+            publicationDate: new Date(response.value.publicationDate),
+            bookLanguage: response.value.bookLanguage,
+            booksAuthors: response.value.booksAuthors.$values.map((authorInfo: any) => ({
+              authorId: authorInfo.author.authorId,
+              name: authorInfo.author.name,
+              middleName: authorInfo.author.middleName,
+              surname: authorInfo.author.surname
+            }))
+          };
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  editBookInDB(updatedBook: Book): Observable<Book> {
+    return this.http.put<Book>(`${this.apiUrl}/edit-book/${updatedBook.bookId}`, updatedBook);
+  }
+ }

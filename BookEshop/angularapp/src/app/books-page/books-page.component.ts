@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Book } from '../interfaces/book.model';
 import { BookPageService } from '../services/book-page.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-books-page',
@@ -17,7 +18,7 @@ export class BooksPageComponent {
 
   books: Book[] = [];
 
-  constructor(private bookPageService: BookPageService) { }
+  constructor(private bookPageService: BookPageService, private router: Router) { }
 
   ngOnInit(): void {
     this.getBooks();
@@ -46,14 +47,16 @@ export class BooksPageComponent {
       this.bookPageService.deleteBook(bookId).subscribe({
         next: () => {
           console.log(`Kniha s ID ${bookId} bola úspešne odstránená.`);
-          // Tu môžete vykonať dodatočné akcie po odstránení knihy
           window.location.reload();
         },
         error: (error) => {
           console.error(`Chyba pri odstraňovaní knihy s ID ${bookId}:`, error);
-          // Tu môžete zobraziť chybovú správu používateľovi
         },
       });
     }
+  }
+
+  editBook(bookId: number | undefined): void {
+    this.router.navigate(['/uprav-knihu', bookId]);
   }
 }

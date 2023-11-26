@@ -6,6 +6,7 @@ namespace webapi.Models
 {
     public class BookResponse
     {
+        public int BookId { get; set; }
         [MaxLength(60)]
         public string Title { get; set; }
         [MaxLength(5000)]

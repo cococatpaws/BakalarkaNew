@@ -26,16 +26,20 @@ namespace webapi.Controllers
         public async Task<IActionResult> GetAllBooks()
         {
             var allBooks = await SqlService.GetAllBooks();
-            /*
-             * Na toto treba doinstalovat dotnet add package Newtonsoft.Json
-             * JObject responseObject = JObject.Parse(allBooks);
-
-            // Get the inner array without the outer properties
-            JArray booksArray = (JArray)responseObject["$values"];
-
-            // Convert the array to a list of Book objects
-            List<Book> allBooksEdited = booksArray.ToObject<List<Book>>();*/
             return Ok(allBooks);
+        }
+
+        [HttpGet("edit-book/{bookId}")]
+        public async Task<IActionResult> GetBookByID(int bookId)
+        {
+            try
+            {
+                var result = await SqlService.GetBookByID(bookId);
+                return Ok(result);
+            } catch (Exception ex)
+            {
+                throw new CustomException(StatusCodes.Status500InternalServerError, $"Error occured while trying to save book to DB: {ex}");
+            }
         }
 
         [HttpPost("saveBook")]
@@ -70,10 +74,22 @@ namespace webapi.Controllers
         [HttpDelete("/knihy")]
         public async Task<IActionResult> DeleteBook([FromBody] int bookId)
         {
-            Console.WriteLine($"{bookId}");
             try
             {
                 var result = await SqlService.DeleteBook(bookId);
+                return Ok(result);
+            } catch (Exception ex)
+            {
+                throw new CustomException(StatusCodes.Status500InternalServerError, $"Error occured while trying to save book to DB: {ex}");
+            }
+        }
+
+        [HttpPut("edit-book/{bookId}")]
+        public async Task<IActionResult> EditBook([FromBody] BookResponse book)
+        {
+            try
+            {
+                var result = await SqlService.EditBook(book);
                 return Ok(result);
             } catch (Exception ex)
             {

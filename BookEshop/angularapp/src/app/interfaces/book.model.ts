@@ -13,8 +13,8 @@ export interface Book {
   price: number;
   publisher?: string;
   numberOfPages?: number;
-  bookFormat: BookFormat;
-  publicationDate: Date;
-  bookLanguage: BookLanguage;
+  bookFormat?: BookFormat;
+  publicationDate?: any;
+  bookLanguage?: BookLanguage;
   booksAuthors?: Author[];
 }
