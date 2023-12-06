@@ -1,7 +1,7 @@
 <form class="px-3 py-3" (ngSubmit)="onSubmit()">
   <div class="row justify-content-center">
     <div class="col-auto py-2">
-      <h2>Pridanie do DB</h2>
+      <h2>Pridanie knihy do DB</h2>
     </div>
   </div>
   <div class="row justify-content-center">
@@ -44,7 +44,6 @@
     <div class="col-3">
       <label for="bookFormatSelect">Formát knihy</label>
       <select class="form-control" id="bookFormatSelect" [(ngModel)]="format" name="bookFormat">
-        <option value="-1" disabled selected>Vyber</option>
         <option value="Book">Kniha</option>
         <option value="Audiobook">Audiokniha</option>
         <option value="Ebook">E-kniha</option>
@@ -53,7 +52,6 @@
     <div class="col-2">
       <label for="bookLanguageSelect">Jazyk knihy</label>
       <select class="form-control" id="bookLanguageSelect" [(ngModel)]="language" name="bookLanguage">
-        <option value="-1" disabled selected>Vyber</option>
         <option value="English">Angličtina</option>
         <option value="Slovak">Slovenčina</option>
         <option value="Czech">Čeština</option>
@@ -63,7 +61,6 @@
     <div class="col-3">
       <label for="bookGenreSelect">Žáner knihy</label>
       <select class="form-control" id="bookGenreSelect" required [(ngModel)]="genre" name="bookGenre">
-        <option value="-1" disabled selected>Vyber</option>
         <option value="Detective">Detektívka</option>
         <option value="Thriller">Triler</option>
         <option value="Horror">Horor</option>
@@ -87,10 +84,10 @@
       <label for="bookDescriptionInput">Popis knihy</label>
       <textarea class="form-control" id="bookDescriptionInput" aria-describedby="bookDescription" placeholder="Popis knihy" required [(ngModel)]="description" name="description"></textarea>
     </div>
-  </div>
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="row justify-content-center">
+      <div class="col-auto py-3">
+        <button type="submit" class="btn btn-primary send-button">Pridaj knihu</button>
+      </div>
+    </div>
   </div>
 </form>

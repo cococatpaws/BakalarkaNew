@@ -1,0 +1,13 @@
+.send-button {
+    background-color:orange;
+    border: none;
+}
+
+form {
+  height: auto !important;
+  height: 100%;
+}
+
+textarea#bookDescriptionInput {
+  height: 10vw;
+}

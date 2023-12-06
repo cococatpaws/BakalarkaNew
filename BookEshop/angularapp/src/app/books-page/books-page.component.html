@@ -61,30 +61,32 @@
       </div>
       <div class="row justify-content-center">
         <div class="col-6 col-md-3 col-lg-3 mb-4 mx-0 col-4k-2" *ngFor="let book of books">
-        <div class="row justify-content-between">
-          <div class="col-auto">
-            <ng-container *ngIf="book.coverImageURL; else defaultImage">
-              <img class="img-fluid" src="{{ book.coverImageURL }}" alt="">
-            </ng-container>
-            <ng-template #defaultImage>
-              <img class="img-fluid" src="../../assets/No-Image-Placeholder-Resized.png" alt="Default Image">
-            </ng-template>
-          </div>
-            
-          </div>
           <div class="row justify-content-between">
             <div class="col-auto">
-              <!--<p class="desc" *ngFor="let author of book.booksAuthors">
-                {{ author.name }} {{ author.middleName ? author.middleName + ' ' : '' }}{{ author.surname }}
-              </p>-->
+              <ng-container *ngIf="book.coverImageURL; else defaultImage">
+                <img class="img-fluid" src="{{ book.coverImageURL }}" alt="">
+              </ng-container>
+              <ng-template #defaultImage>
+                <img class="img-fluid" src="../../assets/No-Image-Placeholder-Resized.png" alt="Default Image">
+              </ng-template>
             </div>
-            <div class="col-auto">
-              <p class="desc">{{ book.price }}</p>
-            </div>
+
           </div>
           <div class="row">
             <p class="title">{{ book.title }}</p>
           </div>
+          <div class="row justify-content-between">
+
+            <!--<div class="col-auto">
+              <p class="desc" *ngFor="let author of book.booksAuthors">
+                {{ author.name }} {{ author.middleName ? author.middleName + ' ' : '' }}{{ author.surname }}
+              </p>
+            </div>-->
+            <div class="col-auto">
+              <p class="desc">{{ book.price }} €</p>
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-auto">
               <button (click)="deleteBook(book.bookId)" class="btn-icon"><i class="bi bi-trash"></i></button>
