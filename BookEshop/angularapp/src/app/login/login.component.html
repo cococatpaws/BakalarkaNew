@@ -1,0 +1,59 @@
+<div class="login-popup">
+  <div class="row justify-content-end mx-0 my-0">
+    <div class="col-auto">
+      <button class="btn-icon" (click)="closeDialog()">
+        <i>x</i>
+      </button>
+    </div>
+  </div>
+  <div class="inner">
+    <form class="example-form">
+      <div class="row justify-content-center mx-0 my-0">
+        <div class="col-auto">
+          <h5>Prihlásenie</h5>
+        </div>
+      </div>
+      <div class="row justify-content-center mx-0 my-0">
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label>Prihlasovacie Meno</mat-label>
+            <input matInput placeholder="Zadaj prihlasovacie meno" name="usename" [(ngModel)]="usernameL">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center mx-0 my-0">
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label>Heslo</mat-label>
+            <input matInput placeholder="Zadaj heslo" value="" name="password" type="password" [(ngModel)]="passwordL">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center mx-0 my-0">
+        <div class="col-auto">
+          <button mat-raised-button (click)="submit()">Prihlásiť sa</button>
+          <span *ngIf="show"> <button mat-button>Prihlásenie úspešné</button></span>
+        </div>
+      </div>
+      <div class="row justify-content-center mx-0 my-0">
+        <div class="col-12">
+          <hr>
+        </div>
+      </div>
+      <div class="row justify-content-center mx-0 my-0">
+        <div class="col-auto">
+          <h5>Ešte nemáš účet?</h5>
+        </div>
+      </div>
+      <div class="row justify-content-center mx-0 my-0">
+        <div class="col-auto">
+          <button mat-raised-button (click)="redirect()" routerLink="/registracia">Zaregistrovať sa</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+
+</div>
+

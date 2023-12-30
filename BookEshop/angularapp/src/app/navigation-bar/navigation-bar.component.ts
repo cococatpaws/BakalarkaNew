@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -10,7 +12,7 @@ export class NavigationBarComponent {
   filter: string = "Názov";
   drodpownOptions: string[] = ["Názov", "Autor"];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private dialog: MatDialog) { }
 
   menuItems: { text: string; link: string; disabled?: boolean }[] = [
     { text: 'Domov', link: '/home', disabled: false },
@@ -23,5 +25,9 @@ export class NavigationBarComponent {
     this.filter = parFilter;
   }
 
-
+  openLoginPopup() {
+    this.dialog.open(LoginComponent, {
+      disableClose: true, 
+    });
+  }
 }

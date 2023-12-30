@@ -5,6 +5,7 @@ import { InStoreReservationComponent } from './footer-pages/in-store-reservation
 import { BooksPageComponent } from './books-page/books-page.component';
 import { AddPageComponent } from './add-page/add-page.component';
 import { EditBookPageComponent } from './edit-book-page/edit-book-page.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'rezervacia-v-knihkupectve', component: InStoreReservationComponent },
   { path: 'knihy', component: BooksPageComponent },
   { path: 'pridaj', component: AddPageComponent },
-  { path: 'uprav-knihu/:id', component: EditBookPageComponent}
+  { path: 'uprav-knihu/:id', component: EditBookPageComponent },
+  { path: 'registracia', component: RegistrationComponent }
 ];
 
 @NgModule({

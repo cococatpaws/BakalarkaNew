@@ -4,7 +4,7 @@ using webapi.Enums;
 
 namespace webapi.Models
 {
-    [Table("books")]
+    [Table("book")]
     public class Book
     {
         [Key][Column("id_book")]

@@ -11,6 +11,8 @@ using webapi.Enums;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Net;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using webapi.Models.ResponseModels;
+using Microsoft.Win32;
 
 namespace webapi.Service
 {
@@ -314,6 +316,172 @@ namespace webapi.Service
             {
                 throw new CustomException(StatusCodes.Status500InternalServerError, $"Error occured while trying to edit book with ID: {book.BookId} from DB.");
             }
+        }
+
+
+        public async Task<ActionResult<User>> Login(Login userInfo)
+        {
+                try
+                {
+                    var varUser = await dbContext.Users.FirstOrDefaultAsync(u => u.UserName == userInfo.UserName && u.Password == userInfo.Password);
+
+                    if (varUser == null)
+                    {
+                    throw new CustomException(StatusCodes.Status404NotFound, $"Takyto pouzivatel neexistuje");
+                    }
+
+                    return varUser;
+                } catch (Exception ex)
+                {
+                    throw new CustomException(StatusCodes.Status500InternalServerError, $"Error while trying to log in: {ex}");
+                }
+        }
+
+        public async Task<bool> Register(Register register)
+        {
+            try
+            {
+                if (register != null && register.UserName != null && register.Password != null && register.Name != null && register.Surname != null && register.Email != null && register.PhoneNumber != null
+                    && register.Country != null && register.City != null && register.Street != null && register.AddressNumber != null && register.PostCode != null)
+                {
+
+
+                    if (await this.CheckExistence(register.UserName, "username"))
+                    {
+                        throw new CustomException(StatusCodes.Status409Conflict, $"Pouzivatel s menom {register.UserName} uz existuje");
+                    } else if (await this.CheckExistence(register.Email, "email"))
+                    {
+                        throw new CustomException(StatusCodes.Status409Conflict, $"Pouzivatel s emailom {register.Email} uz existuje");
+                    } else if (await this.CheckExistence(register.PhoneNumber, "phonenumber"))
+                    {
+                        throw new CustomException(StatusCodes.Status409Conflict, $"Pouzivatel s telefonnym cislom {register.PhoneNumber} uz existuje");
+                    }
+
+                    //PersonalInfo
+                    var personalInfo = new PersonalInfo
+                    {
+                        Name = register.Name,
+                        Surname = register.Surname,
+                        Email = register.Email,
+                        PhoneNumber = register.PhoneNumber
+                    };
+
+                    await dbContext.PersonalInfo.AddAsync(personalInfo);
+
+                    //Shipping address
+                    var addressSh = new Address
+                    {
+                        Country = register.Country,
+                        City = register.City,
+                        Street = register.Street,
+                        AddressNumber = register.AddressNumber,
+                        PostCode = register.PostCode
+                    };
+
+                    await dbContext.Addresses.AddAsync(addressSh);
+                    await dbContext.SaveChangesAsync();
+                    var addressShipping = await dbContext.Addresses.OrderBy(ad => ad.AddressId).LastOrDefaultAsync();
+
+                    var shippingAddress = new ShippingAddress
+                    {
+                        AddressIdS = addressShipping!.AddressId,
+                        ShippingDetails = "",
+                    };
+
+                    await dbContext.ShippingAddresses.AddAsync(shippingAddress);
+                    await dbContext.SaveChangesAsync();
+
+                    //Billing Address
+                    var addressBi = new Address
+                    {
+                        Country = register.Country,
+                        City = register.City,
+                        Street = register.Street,
+                        AddressNumber = register.AddressNumber,
+                        PostCode = register.PostCode
+                    };
+
+                    await dbContext.Addresses.AddAsync(addressBi);
+                    await dbContext.SaveChangesAsync();
+                    var addressBilling = await dbContext.Addresses.OrderBy(ad => ad.AddressId).LastOrDefaultAsync();
+
+                    var billingAddress = new BillingAddress
+                    {
+                        AddressIdB = addressBilling!.AddressId,
+                    };
+
+                    await dbContext.BillingAddresses.AddAsync(billingAddress);
+                    await dbContext.SaveChangesAsync();
+
+                    //UserType
+                    var billingAddressDB = await dbContext.BillingAddresses.OrderBy(ba => ba.AddressIdB).LastOrDefaultAsync();
+                    var shippingAddressDB = await dbContext.ShippingAddresses.OrderBy(sa => sa.AddressIdS).LastOrDefaultAsync();
+
+                    var userType = new UserType
+                    {
+                        ShippingAddress = shippingAddressDB,
+                        BillingAddress = billingAddressDB,
+                    };
+
+                    await dbContext.UserTypes.AddAsync(userType);
+                    await dbContext.SaveChangesAsync();
+                    
+
+                    var userTypeDB = await dbContext.UserTypes.OrderBy(ut => ut.UserTypeId).LastOrDefaultAsync();
+                    var personalInfoDB = await dbContext.PersonalInfo.OrderBy(pi => pi.PersonalInfoId).LastOrDefaultAsync();
+
+                    var user = new User
+                    {
+                        UserTypeIdUser = userTypeDB.UserTypeId,
+                        PersonalInfoIdUser = personalInfo.PersonalInfoId,
+                        ProfilePictureUrl = "",
+                        UserName = register.UserName,
+                        Password = register.Password,
+                        Role = "User"
+                    };
+
+                    await dbContext.Users.AddAsync(user);
+                    await dbContext.SaveChangesAsync();
+
+                    return true;
+
+                } else
+                {
+                    throw new CustomException(StatusCodes.Status400BadRequest, $"Niektore polia neboli vyplnene!");
+                }
+
+            } catch (Exception ex)
+            {
+                throw new CustomException(StatusCodes.Status500InternalServerError, $"Nieco sa dogabalo: {ex}");
+            }
+        }
+
+        public async Task<bool> CheckExistence(string variableToCheck, string typeOfObject)
+        {
+            if (typeOfObject == "username")
+            {
+                var usernameExisting = await dbContext.Users.FirstOrDefaultAsync(u => u.UserName == variableToCheck);
+                if (usernameExisting != null)
+                {
+                    return true;
+
+                }
+            } else if (typeOfObject == "email")
+            {
+                var emailExisting = await dbContext.PersonalInfo.FirstOrDefaultAsync(e => e.Email == variableToCheck);
+                if(emailExisting != null) 
+                { 
+                    return true; 
+                }
+            } else if (typeOfObject == "phonenumber")
+            {
+                var phoneNumberExisting = await dbContext.PersonalInfo.FirstOrDefaultAsync(e => e.PhoneNumber == variableToCheck);
+                if (phoneNumberExisting != null)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
     }

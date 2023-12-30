@@ -1,0 +1,77 @@
+<form class="px-3 py-3" (ngSubmit)="onSubmit()">
+  <div class="row justify-content-center">
+    <div class="col-auto py-2">
+      <h2>Registrácia</h2>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <input type="text" class="form-control" id="usernameInput" aria-describedby="username" placeholder="Používateľské meno" required [(ngModel)]="usernameR" name="username">
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <input type="email" class="form-control" id="emailInput" aria-describedby="email" placeholder="Email" required [(ngModel)]="emailR" name="Email">
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <input type="password" class="form-control" id="passwordInput" aria-describedby="password" placeholder="Heslo" required [(ngModel)]="passwordR" name="password">
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <input type="password" class="form-control" id="passwordConfirmInput" aria-describedby="passwordConfirm" placeholder="Zopakuj heslo" required [(ngModel)]="passwordConfirmR" name="passwordConfirm">
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <input type="text" class="form-control" id="nameInput" aria-describedby="name" placeholder="Meno" required [(ngModel)]="nameR" name="name">
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <input type="text" class="form-control" id="surnameInput" aria-describedby="surname" placeholder="Priezvisko" required [(ngModel)]="surnameR" name="surname">
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <input type="text" class="form-control" id="phoneNumberInput" aria-describedby="phoneNumber" placeholder="Telefónne číslo" required [(ngModel)]="phoneNumberR" name="phoneNumber">
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <input type="text" class="form-control" id="streetInput" aria-describedby="street" placeholder="Ulica" required [(ngModel)]="streetR" name="street">
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <input type="text" class="form-control" id="addressNumberInput" aria-describedby="addressNumber" placeholder="Číslo domu" required [(ngModel)]="addressNumberR" name="addressNumber">
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <input type="text" class="form-control" id="cityInput" aria-describedby="city" placeholder="Mesto" required [(ngModel)]="cityR" name="city">
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <input type="text" class="form-control" id="postCodeInput" aria-describedby="postCode" placeholder="PSČ" required [(ngModel)]="postCodeR" name="postCode">
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-3">
+      <select class="form-control" id="countrySelect" placeholder="Krajina" [(ngModel)]="countryR" name="country">
+        <option value="" disabled selected>Vyberte krajinu</option>
+        <option value="Slovakia">Slovensko</option>
+        <option value="Czech republic">Česko</option>
+      </select>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-auto py-3">
+        <button type="submit" class="btn btn-primary send-button">Zaregistruj</button>
+      </div>
+    </div>
+  </div>
+</form>

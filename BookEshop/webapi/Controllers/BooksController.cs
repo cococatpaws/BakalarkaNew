@@ -6,11 +6,11 @@ using webapi.Service;
 
 namespace webapi.Controllers
 {
-    public class BookPageController : ControllerBase
+    public class BooksController : ControllerBase
     {
         private readonly ISqlService SqlService;
 
-        public BookPageController(ISqlService varSqlService)
+        public BooksController(ISqlService varSqlService)
         {
             this.SqlService = varSqlService;
         }

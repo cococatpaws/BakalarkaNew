@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webapi.Models
 {
+    [Table("address")]
     public class Address
     {
         [Key]
@@ -14,12 +15,17 @@ namespace webapi.Models
         [Column("city")]
         [MaxLength(50)]
         public string City { get; set; }
+        [Column("street")]
+        [MaxLength(50)]
+        public string Street { get; set; }
         [Column("address_number")]
         [MaxLength(10)]
         public string AddressNumber { get; set; }
         [Column("postcode")]
         [MaxLength(5)]
         public string PostCode { get; set; }
+
+        //Relationships
 
 
     }

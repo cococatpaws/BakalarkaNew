@@ -1,0 +1,32 @@
+.login-popup {
+    padding: 0.5vw;
+}
+
+  .login-popup.inner {
+    padding: 1vw;
+  }
+
+hr {
+    border-width: 0.15vw;
+}
+
+button.mdc-button:hover {
+  background-color: #FFA500;
+  color: white;
+}
+
+.btn-icon {
+  width: 25px;
+  height: 25px;
+  padding: 5px 5px;
+  border-radius: 35px;
+  font-size: 1.2em;
+  text-align: center;
+  line-height: 0.8;
+  border: none;
+  background-color:white;
+}
+
+  .btn-icon:hover {
+    background-color: rgba(255,165,0, 0.3);
+  }
