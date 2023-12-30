@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="header">
+    <i class="{{ getIcon }}"></i>
+    <div class="title">{{getTitle}}</div>
+    <i class="bi bi-x-lg cancel" (click)="snackBarRef.dismiss()"></i>
+  </div>
+  <div class="custom-snack-bar">
+    <div class="alert-message">
+      {{data.message}}
+    </div>
+  </div>
+</div>

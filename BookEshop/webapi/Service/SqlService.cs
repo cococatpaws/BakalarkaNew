@@ -323,15 +323,24 @@ namespace webapi.Service
         {
                 try
                 {
-                    var varUser = await dbContext.Users.FirstOrDefaultAsync(u => u.UserName == userInfo.UserName && u.Password == userInfo.Password);
 
+                    var varUser = await dbContext.Users.FirstOrDefaultAsync(u => u.UserName == userInfo.UserName);
+                  
                     if (varUser == null)
                     {
                     throw new CustomException(StatusCodes.Status404NotFound, $"Takyto pouzivatel neexistuje");
                     }
 
-                    return varUser;
-                } catch (Exception ex)
+                    bool userExists = BCrypt.Net.BCrypt.EnhancedVerify(userInfo.Password, varUser.Password);
+
+                    if (userExists)
+                    {
+                        return varUser;
+                    } else
+                    {
+                        throw new CustomException(StatusCodes.Status401Unauthorized, $"Neplatne meno alebo heslo");
+                    }
+            } catch (Exception ex)
                 {
                     throw new CustomException(StatusCodes.Status500InternalServerError, $"Error while trying to log in: {ex}");
                 }
@@ -429,6 +438,8 @@ namespace webapi.Service
 
                     var userTypeDB = await dbContext.UserTypes.OrderBy(ut => ut.UserTypeId).LastOrDefaultAsync();
                     var personalInfoDB = await dbContext.PersonalInfo.OrderBy(pi => pi.PersonalInfoId).LastOrDefaultAsync();
+                    var password = register.Password;
+                    var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13);
 
                     var user = new User
                     {
@@ -436,7 +447,7 @@ namespace webapi.Service
                         PersonalInfoIdUser = personalInfo.PersonalInfoId,
                         ProfilePictureUrl = "",
                         UserName = register.UserName,
-                        Password = register.Password,
+                        Password = passwordHash,
                         Role = "User"
                     };
 

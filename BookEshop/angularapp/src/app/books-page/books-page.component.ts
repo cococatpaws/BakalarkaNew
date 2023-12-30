@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Book } from '../interfaces/book.model';
 import { BookPageService } from '../services/book-page.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-books-page',
@@ -18,7 +19,7 @@ export class BooksPageComponent {
 
   books: Book[] = [];
 
-  constructor(private bookPageService: BookPageService, private router: Router) { }
+  constructor(private bookPageService: BookPageService, private router: Router, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.getBooks();
@@ -46,11 +47,14 @@ export class BooksPageComponent {
     if (bookId != undefined) {
       this.bookPageService.deleteBook(bookId).subscribe({
         next: () => {
-          console.log(`Kniha s ID ${bookId} bola úspešne odstránená.`);
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 500)
+
+          this.notificationService.displayMessage("Kniha bola úspešne odstránená!", "success");
         },
         error: (error) => {
-          console.error(`Chyba pri odstraňovaní knihy s ID ${bookId}:`, error);
+          this.notificationService.displayMessage("Nastala chyba pri odstraňovaní knihy!", "warning");
         },
       });
     }

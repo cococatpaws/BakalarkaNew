@@ -32,7 +32,12 @@
       <div class="row justify-content-center mx-0 my-0">
         <div class="col-auto">
           <button mat-raised-button (click)="submit()">Prihlásiť sa</button>
+        </div>
+      </div>
+      <div class="row justify-content-center mx-0 my-0">
+        <div class="col-auto">
           <span *ngIf="show"> <button mat-button>Prihlásenie úspešné</button></span>
+          <span *ngIf="show"> <button mat-button>Neplatné meno alebo heslo</button></span>
         </div>
       </div>
       <div class="row justify-content-center mx-0 my-0">

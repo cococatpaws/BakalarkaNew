@@ -5,6 +5,7 @@ import { Genre } from '../interfaces/Enums/genre.enum';
 import { Author } from '../interfaces/author.model';
 import { Book } from '../interfaces/book.model';
 import { BookPageService } from '../services/book-page.service';
+import { NotificationService } from '../services/notification.service';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class AddPageComponent {
 
   bookAuthors: Author[] = [];
 
-  constructor(private bookPageService: BookPageService) { }
+  constructor(private bookPageService: BookPageService, private notificationService: NotificationService) { }
 
   onSubmit(): void {
     this.bookAuthors = this.mapBookAuthors(this.selectedAuthors);
@@ -57,11 +58,11 @@ export class AddPageComponent {
 
     this.bookPageService.saveBookInDB(book).subscribe({
       next: (response: Book) => {
-        console.log('Údaje úspešne odoslané na server', response);
+        this.notificationService.displayMessage("Kniha bola pridaná do databázy!", "info");
         window.location.reload();
       },
       error: (error: any) => {
-        console.error('Chyba pri odosielaní údajov na server', error);
+        this.notificationService.displayMessage("Knihu sa nepodarilo pridať do databázy!", "warning");
       }
     });
   }

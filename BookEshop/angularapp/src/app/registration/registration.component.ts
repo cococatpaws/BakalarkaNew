@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Register } from '../interfaces/register.model';
 import { LoginService } from '../services/login.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-registration',
@@ -21,7 +22,7 @@ export class RegistrationComponent {
   postCodeR: string = "";
   countryR: string = "";
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private notificationService: NotificationService) { }
     
 
     onSubmit() {
@@ -41,12 +42,12 @@ export class RegistrationComponent {
 
       this.loginService.registerUser(user).subscribe({
         next: (response: Register) => {
-          console.log('Údaje úspešne odoslané na server', response);
+          this.notificationService.displayMessage("Registrácia bola úspešná! Môžeš sa prihlásiť", "success");
           //Sem pridat popup okno co informuje o uspesnej registracii
           window.location.reload();
         },
         error: (error: any) => {
-          console.error('Chyba pri odosielaní údajov na server', error);
+          this.notificationService.displayMessage("Registrácia sa nepodarila!", "warning");
         }
       });
     }

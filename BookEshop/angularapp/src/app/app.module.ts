@@ -22,6 +22,8 @@ import { EditBookPageComponent } from './edit-book-page/edit-book-page.component
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegistrationComponent } from './registration/registration.component';
+import { SnackbarComponent } from './snackbar/snackbar.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,7 @@ import { RegistrationComponent } from './registration/registration.component';
   ],
   imports: [
     BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, BrowserAnimationsModule, MatDialogModule, MatFormFieldModule, MatInputModule,
-    MatButtonModule
+    MatButtonModule, MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

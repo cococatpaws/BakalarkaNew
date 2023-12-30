@@ -6,6 +6,7 @@ import { Author } from '../interfaces/author.model';
 import { Book } from '../interfaces/book.model';
 import { BookPageService } from '../services/book-page.service';
 import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from '../services/notification.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class EditBookPageComponent {
 
   bookId: number = 0;
 
-  constructor(private bookPageService: BookPageService, private route: ActivatedRoute) { }
+  constructor(private bookPageService: BookPageService, private route: ActivatedRoute, private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -55,9 +56,15 @@ export class EditBookPageComponent {
     this.bookAuthors = this.mapBookAuthors(this.authorsString);
     this.book.booksAuthors = this.bookAuthors;
 
-    this.bookPageService.editBookInDB(this.book).subscribe(response => {
-      window.location.reload();
-    })
+    this.bookPageService.editBookInDB(this.book).subscribe({
+      next: (response: Book) => {
+        this.notificationService.displayMessage("Informácie o knihe bolo úspešne zmenené!", "success");
+        window.location.reload();
+      },
+      error: (error: any) => {
+        this.notificationService.displayMessage("Info o knihe sa nepodarilo zmeniť!", "warning");
+      }
+    });
   }
 
   mapBookAuthors(authorsString: string): Author[] {

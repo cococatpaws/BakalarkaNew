@@ -2,3 +2,43 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-mdc-snack-bar-container {
+  &.custom-snackbar
+
+{
+  --mdc-snackbar-container-color: #ededed;
+}
+
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-mdc-snack-bar-container {
+  &.green-alert
+
+{
+  --mdc-snackbar-container-color: #80cd9c;
+}
+
+}
+
+.mat-mdc-snack-bar-container {
+  &.red-alert
+
+{
+  --mdc-snackbar-container-color: #f3808e;
+}
+
+}
+
+.custom-alert button {
+  color: black !important;
+}

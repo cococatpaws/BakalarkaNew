@@ -6,7 +6,7 @@ using webapi.Service;
 namespace webapi.Controllers
 {
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : ExceptionHandlingControllerBase
     {
 
         private readonly ISqlService SqlService;
@@ -19,13 +19,13 @@ namespace webapi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login userInfo)
         {
-            try
+            return await HandleExceptionAsync(async () =>
             {
                 var result = await SqlService.Login(userInfo);
                 return Ok(result);
-            } catch (Exception ex) {
-                return BadRequest(ex.Message);
-            }
+            });
+                
+            
         }
 
         [HttpPost("register")]

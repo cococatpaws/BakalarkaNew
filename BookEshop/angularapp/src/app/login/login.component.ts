@@ -19,6 +19,7 @@ export class LoginComponent {
   usernameL: string = "";
   passwordL: string = "";
   show: boolean = false;
+  showInvalid: boolean = false;
   submit() {
     const user: Login = {
       username: this.usernameL,
@@ -28,12 +29,17 @@ export class LoginComponent {
     this.loginService.login(user).subscribe({
       next: (response: Login) => {
         console.log('Údaje úspešne odoslané na server', response);
+        this.show = true;
+        setTimeout(() => {
+          this.router.navigate(['home']);
+          this.closeDialog();
+        }, 1000);
         //Sem pridat presmerovanie na hlavnu stranku, kde uz bude zobrazeny aj profil atd
-        this.router.navigate(['home']);
-        this.closeDialog();
+        
       },
       error: (error: any) => {
         console.error('Chyba pri odosielaní údajov na server', error);
+        this.showInvalid = true;
       }
     });
 
@@ -43,7 +49,6 @@ export class LoginComponent {
   clear() {
     this.usernameL = "";
     this.passwordL = "";
-    this.show = true;
   }
 
   redirect() {
