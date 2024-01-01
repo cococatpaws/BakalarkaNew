@@ -19,10 +19,14 @@ namespace webapi.Service
     public class SqlService : ISqlService
     {
         private readonly DataContext dbContext;
+        private readonly IJwtService jwtService;
+        private readonly IAzureBlobService AzureBlobService;
 
-        public SqlService(DataContext dbContext)
+        public SqlService(DataContext dbContext, IJwtService jwtService, IAzureBlobService azureBlobService)
         {
             this.dbContext = dbContext;
+            this.jwtService = jwtService;
+            this.AzureBlobService = azureBlobService;
         }
 
         public async Task<ActionResult<List<Book>>> GetAllBooks()
@@ -149,6 +153,44 @@ namespace webapi.Service
             }
         }
 
+        public async Task<bool> SaveBookCover(BookCoverResponse model)
+        {
+            if (model.CoverImage != null)
+            {
+                var book = await dbContext.Books.FindAsync(model.BookId);
+
+                if (book != null)
+                {
+                    var coverImageUrlBook = "";
+                    var picture = model.CoverImage;
+
+                    if (model.CoverImage != null)
+                    {
+                        coverImageUrlBook = await this.AzureBlobService.UploadImageAsync(model.CoverImage);
+
+                        if (coverImageUrlBook != null)
+                        {
+                            book.CoverImageURL = coverImageUrlBook;
+                            await dbContext.SaveChangesAsync();
+                            return true;
+                        } else
+                        {
+                            return false;
+                        }
+                    } else
+                    {
+                        return false;
+                    }
+                } else
+                {
+                    return false;
+                }
+            } else
+            {
+                return false;
+            }
+        }
+
         public async Task<bool> DeleteBook(int bookId)
         {
             try
@@ -166,6 +208,10 @@ namespace webapi.Service
                     dbContext.Books_Authors.RemoveRange(recordsToDelete);
                     await dbContext.SaveChangesAsync();
                 }
+
+                //Vymazanie image z blobstorage
+                var bookCoverURL = bookToDelete.CoverImageURL;
+                await this.AzureBlobService.RemoveImageAsync(bookCoverURL);
 
                 dbContext.Books.Remove(bookToDelete);
                 await dbContext.SaveChangesAsync();
@@ -196,6 +242,17 @@ namespace webapi.Service
                 {
                     throw new CustomException(StatusCodes.Status404NotFound, $"Book with ID {book.BookId} not found.");
                 }
+
+                //AK DeleteImage == TRUE -> chcem vymazať starú knihu z blob service a URL z DB
+                if (book.DeleteImage != null && book.DeleteImage == true)
+                {
+                    var bookId = book.CoverImageURL;
+                    await this.AzureBlobService.RemoveImageAsync(bookId.ToString());
+
+                    existingBook.CoverImageURL = "";
+                    await dbContext.SaveChangesAsync();
+                }
+
 
                 //Najprv skontrolovat, ci su vsetci autori v tabulke Authors
                 foreach (var author in book.BooksAuthors)
@@ -319,7 +376,7 @@ namespace webapi.Service
         }
 
 
-        public async Task<ActionResult<User>> Login(Login userInfo)
+        public async Task<string> Login(Login userInfo)
         {
                 try
                 {
@@ -335,7 +392,8 @@ namespace webapi.Service
 
                     if (userExists)
                     {
-                        return varUser;
+                    var token = jwtService.CreateJwt(varUser);
+                    return token;
                     } else
                     {
                         throw new CustomException(StatusCodes.Status401Unauthorized, $"Neplatne meno alebo heslo");

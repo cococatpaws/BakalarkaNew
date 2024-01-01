@@ -1,6 +1,7 @@
-.send-button {
+.send-button, .remove-btn {
   background-color: orange;
   border: none;
+  color: white;
 }
 
 form {
@@ -11,3 +12,10 @@ form {
 textarea#bookDescriptionInput {
   height: 10vw;
 }
+
+.form-control, .remove-btn {
+  height: 40px;
+}
+
+
+

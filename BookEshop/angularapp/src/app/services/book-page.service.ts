@@ -28,8 +28,12 @@ export class BookPageService {
     );
   }
 
-  saveBookInDB(data: Book): Observable<Book> {
-    return this.http.post<Book>(`${this.apiUrl}/saveBook`, data);
+  saveBookInDB(data: Book): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/saveBook`, data);
+  }
+
+  saveBookPictureInDB(data: FormData) {
+    return this.http.post<any>(`${this.apiUrl}/saveBookCover`, data);
   }
 
   deleteBook(bookId: number) {

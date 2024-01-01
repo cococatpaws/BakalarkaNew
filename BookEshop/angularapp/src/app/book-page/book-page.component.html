@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <ng-container *ngIf="book.coverImageURL; else defaultImage">
+        <img class="img-fluid" src="{{ book.coverImageURL }}" alt="">
+      </ng-container>
+      <ng-template #defaultImage>
+        <img class="img-fluid" src="../../assets/No-Image-Placeholder-Resized.png" alt="Default Image">
+      </ng-template>
+
+    </div>
+    <div class="col-9">
+      <div class="row justify-content-left">
+        <div class="col-auto">
+          <h2>{{book.title}}</h2>
+        </div>
+      </div>
+      <div class="row justify-content-left">
+        <div class="col-auto">
+          <h6>Autori: {{authorsString}}</h6>
+        </div>
+      </div>
+      <div class="row justify-content-left mt-3">
+        <div class="col-auto">
+          <p>{{book.description}}</p>
+        </div>
+      </div>
+      <div class="row justify-content-end mt-2">
+        <div class="col-auto">
+          <h5>{{book.price}}€</h5>
+        </div>
+        <div class="col-auto">
+          <p *ngIf="book.quantityInStock > 0">Dostupná na sklade</p>
+          <p *ngIf="book.quantityInStock == 0">Nie je dostupná</p>
+        </div>
+        <div class="col-auto">
+          <button *ngIf="book.quantityInStock == 0" disabled>Pridať do košíka</button>
+          <button *ngIf="book.quantityInStock > 0">Pridať do košíka</button>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  
+</div>
+

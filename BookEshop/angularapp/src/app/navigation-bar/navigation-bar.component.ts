@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
+import { AuthDataService } from '../services/auth-data.service';
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-navigation-bar',
@@ -11,8 +14,19 @@ import { LoginComponent } from '../login/login.component';
 export class NavigationBarComponent {
   filter: string = "Názov";
   drodpownOptions: string[] = ["Názov", "Autor"];
+  role: string = "";
 
-  constructor(private router: Router, private dialog: MatDialog) { }
+  constructor(private router: Router, private dialog: MatDialog, private authDataService: AuthDataService, private authService: AuthService) { }
+
+  ngOnInit() {
+    console.log(sessionStorage);
+
+    this.authDataService.getRole().subscribe(response =>
+    {
+      this.role = response
+      console.log("Rola: " + this.role);
+    })
+  }
 
   menuItems: { text: string; link: string; disabled?: boolean }[] = [
     { text: 'Domov', link: '/home', disabled: false },
@@ -29,5 +43,10 @@ export class NavigationBarComponent {
     this.dialog.open(LoginComponent, {
       disableClose: true, 
     });
+  }
+
+  logout() {
+    this.authService.logout();
+    //pridat snackbar message - bol si uspesne odhlaseny
   }
 }

@@ -31,6 +31,10 @@ a, .bi-house, .desc {
   color: grey;
 }
 
+a:hover {
+    cursor: pointer;
+}
+
 .bi-house {
   margin-left: 1vw;
 }

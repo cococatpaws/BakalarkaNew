@@ -1,20 +1,16 @@
- import { Component, ElementRef, ViewChild } from '@angular/core';
-import { BookFormat } from '../interfaces/Enums/book-format.enum';
-import { BookLanguage } from '../interfaces/Enums/book-language.enum';
-import { Genre } from '../interfaces/Enums/genre.enum';
-import { Author } from '../interfaces/author.model';
-import { Book } from '../interfaces/book.model';
+import { Component } from '@angular/core';
 import { BookPageService } from '../services/book-page.service';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
-
+import { Author } from '../interfaces/author.model';
+import { Book } from '../interfaces/book.model';
 
 @Component({
-  selector: 'app-edit-book-page',
-  templateUrl: './edit-book-page.component.html',
-  styleUrls: ['./edit-book-page.component.css']
+  selector: 'app-book-page',
+  templateUrl: './book-page.component.html',
+  styleUrls: ['./book-page.component.css']
 })
-export class EditBookPageComponent {
+export class BookPageComponent {
   book: Book = {
     title: "",
     description: "",
@@ -27,17 +23,15 @@ export class EditBookPageComponent {
     publicationDate: undefined,
     bookLanguage: undefined,
     booksAuthors: undefined,
-    coverImageURL: "",
-    deleteImage: false 
-};
+    coverImageURL: ""
+  };
+  ;
 
   authorsString: string = '';
-  bookAuthors: Author[] = [];
-  bookId: number = 0;
-  isChecked: boolean = false;
 
-  bookImage: File | undefined = undefined;
-  @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement> | undefined;
+  bookAuthors: Author[] = [];
+
+  bookId: number = 0;
 
   constructor(private bookPageService: BookPageService, private route: ActivatedRoute, private notificationService: NotificationService) { }
 
@@ -49,50 +43,19 @@ export class EditBookPageComponent {
     this.bookPageService.getBookById(this.bookId).subscribe(response => {
       this.mapResponse(response);
       console.log(response);
-    });
-  }
-
-  onFileChange(event: any) {
-    this.bookImage = event.target.files[0];
-    this.book.deleteImage = true;
-  }
-
-  removeImgSelection() {
-    if (this.fileInput) {
-      this.bookImage = undefined;
-      this.fileInput.nativeElement.value = "";
     }
+
+    );
   }
 
   onSubmit(): void {
-    if (this.bookImage == undefined) {
-      this.book.deleteImage = this.isChecked;
-    }
-
     this.bookAuthors = this.mapBookAuthors(this.authorsString);
     this.book.booksAuthors = this.bookAuthors;
 
-    console.log(this.book);
-
     this.bookPageService.editBookInDB(this.book).subscribe({
-      next: (response: any) => {
+      next: (response: Book) => {
         this.notificationService.displayMessage("Informácie o knihe bolo úspešne zmenené!", "success");
-
-        //ak this.bookImage != undefined tak sa tu vykona dalsi request na upload obrazku
-        if (this.bookImage != undefined) {
-          var formData = new FormData();
-          formData.append('bookId', this.bookId.toString());
-          formData.append('coverImage', this.bookImage as Blob);
-
-          this.bookPageService.saveBookPictureInDB(formData).subscribe({
-            next: (response: any) => {
-
-            },
-            error: (error: any) => {
-
-            }
-          });
-        }
+        window.location.reload();
       },
       error: (error: any) => {
         this.notificationService.displayMessage("Info o knihe sa nepodarilo zmeniť!", "warning");
@@ -160,5 +123,4 @@ export class EditBookPageComponent {
 
     return this.book;
   }
-
 }

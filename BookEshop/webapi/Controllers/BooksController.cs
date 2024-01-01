@@ -2,10 +2,13 @@
 using System.ComponentModel;
 using webapi.Data;
 using webapi.Models;
+using webapi.Models.ResponseModels;
 using webapi.Service;
 
 namespace webapi.Controllers
 {
+    //[ApiController]
+    //[Route("api")]
     public class BooksController : ControllerBase
     {
         private readonly ISqlService SqlService;
@@ -54,7 +57,7 @@ namespace webapi.Controllers
                 // Ak výsledok nie je null a obsahuje informácie o knihe, odpovedzte s týmito informáciami
                 if (result.Value != null && result.Value.BookId != -1)
                 {
-                    return Ok(result);
+                    return Ok(new {Message= "Kniha úspešne pridaná do DB.", BookId = result.Value.BookId});
                 }
                 else if (result.Value != null && result.Value.BookId == -1)
                 {
@@ -69,6 +72,20 @@ namespace webapi.Controllers
                 // Ak sa vyskytne chyba, môžete ju zachytiť a odpovedať s chybovou správou
                 return BadRequest(new { message = $"Chyba pri spracovaní údajov: {ex.Message}" });
             }
+        }
+
+        [HttpPost("saveBookCover")]
+        public async Task<IActionResult> SaveBookCover([FromForm] BookCoverResponse model)
+        {
+            try
+            {
+                var result = await SqlService.SaveBookCover(model);
+                return Ok(result);
+
+            } catch(Exception ex)
+            {
+                throw new CustomException(StatusCodes.Status500InternalServerError, "Chyba");
+            }   
         }
 
         [HttpDelete("/knihy")]

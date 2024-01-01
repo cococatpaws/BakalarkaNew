@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Login } from '../interfaces/login.model'
-import { LoginService } from '../services/login.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +10,7 @@ import { LoginService } from '../services/login.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  constructor(private dialogRef: MatDialogRef<LoginComponent>, private router: Router, private loginService: LoginService) { }
+  constructor(private dialogRef: MatDialogRef<LoginComponent>, private router: Router, private loginService: AuthService) { }
 
   closeDialog() {
     this.dialogRef.close();
@@ -20,6 +20,7 @@ export class LoginComponent {
   passwordL: string = "";
   show: boolean = false;
   showInvalid: boolean = false;
+
   submit() {
     const user: Login = {
       username: this.usernameL,
@@ -27,9 +28,10 @@ export class LoginComponent {
     };
 
     this.loginService.login(user).subscribe({
-      next: (response: Login) => {
-        console.log('Údaje úspešne odoslané na server', response);
+      next: (response) => {
+        this.showInvalid = false;
         this.show = true;
+        this.loginService.storeToken(response.token);
         setTimeout(() => {
           this.router.navigate(['home']);
           this.closeDialog();
@@ -40,6 +42,7 @@ export class LoginComponent {
       error: (error: any) => {
         console.error('Chyba pri odosielaní údajov na server', error);
         this.showInvalid = true;
+        this.show = false;
       }
     });
 

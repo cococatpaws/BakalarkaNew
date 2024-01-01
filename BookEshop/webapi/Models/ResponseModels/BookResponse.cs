@@ -31,5 +31,7 @@ namespace webapi.Models
         [EnumDataType(typeof(BookLanguage))]
         public string BookLanguage { get; set; }
         public List<Author> BooksAuthors { get; set; }
+        //public IFormFile? CoverImage { get; set; }
+        public bool? DeleteImage { get; set; }
     }
 }

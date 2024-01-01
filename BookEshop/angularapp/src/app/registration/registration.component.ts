@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Register } from '../interfaces/register.model';
-import { LoginService } from '../services/login.service';
+import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class RegistrationComponent {
   postCodeR: string = "";
   countryR: string = "";
 
-  constructor(private loginService: LoginService, private notificationService: NotificationService) { }
+  constructor(private loginService: AuthService, private notificationService: NotificationService) { }
     
 
     onSubmit() {

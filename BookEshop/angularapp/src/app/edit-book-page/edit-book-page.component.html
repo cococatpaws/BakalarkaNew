@@ -87,10 +87,26 @@
       <label for="bookDescriptionInput">Popis knihy</label>
       <textarea class="form-control" id="bookDescriptionInput" aria-describedby="bookDescription" placeholder="Popis knihy" required [(ngModel)]="book.description" name="description"></textarea>
     </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-7 mt-3 px-0">
+      <label for="formFileLg" class="form-label">Nový obrázok obálky knihy</label>
+      <input class="form-control form-control" id="formFileLg" type="file" #fileInput (change)="onFileChange($event)">
+    </div>
+    <div class="col-1 mt-3 position-relative">
+      <button type="button" class="btn remove-btn position-absolute bottom-0 start-0" (click)="removeImgSelection()">Odstráň</button>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-3">
+    <div class="col-auto form-check">
+      <input class="form-check-input" type="checkbox" id="exampleCheckbox" [(ngModel)]="isChecked" name="exampleCheckbox" *ngIf="bookImage != undefined" disabled>
+      <input class="form-check-input" type="checkbox" id="exampleCheckbox" [(ngModel)]="isChecked" name="exampleCheckbox" *ngIf="bookImage == undefined" >
+      <label class="form-check-label" for="exampleCheckbox">Zaškrtni pre vymazanie starého obrázku (bez pridania nového)</label>
+    </div>
+  </div>
     <div class="row justify-content-center">
       <div class="col-auto py-3">
         <button type="submit" class="btn btn-primary send-button">Ulož zmeny</button>
       </div>
     </div>
-  </div>
 </form>

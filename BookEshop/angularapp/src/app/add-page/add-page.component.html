@@ -6,13 +6,13 @@
   </div>
   <div class="row justify-content-center">
     <div class="form-group col-8">
-      <label for="bookTitleInput">Názov knihy</label>
+      <label for="bookTitleInput">Názov knihy*</label>
       <input type="text" class="form-control" id="bookTitleInput" aria-describedby="bookTitle" placeholder="Zadaj názov knihy.." required [(ngModel)]="title" name="title">
     </div>
   </div>
   <div class="row justify-content-center">
     <div class="form-group col-8">
-      <label for="bookAuthorsInput">Autori knihy</label>
+      <label for="bookAuthorsInput">Autori knihy*</label>
       <input type="text" class="form-control" id="bookAuthorsInput" aria-describedby="bookAuthors" placeholder="Zadajte autorov knihy oddelených čiarkou.." required [(ngModel)]="selectedAuthors" name="selectedAuthors">
     </div>
   </div>
@@ -22,17 +22,17 @@
       <input type="text" class="form-control" id="bookPublisherInput" aria-describedby="bookPublisher" placeholder="Zadaj vydavateľa knihy.." required [(ngModel)]="publisher" name="publisher">
     </div>
     <div class="form-group col-3">
-      <label for="bookReleaseDateInput">Dátum vydania</label>
+      <label for="bookReleaseDateInput">Dátum vydania*</label>
       <input type="date" class="form-control" id="bookReleaseDateInput" aria-describedby="bookReleaseDate" placeholder="Zadaj dátum vydania.." required [(ngModel)]="publicationDate" name="publicationDate">
     </div>
   </div>
   <div class="row justify-content-center">
     <div class="form-group col-3">
-      <label for="bookQuantityInput">Počet na sklade</label>
+      <label for="bookQuantityInput">Počet na sklade*</label>
       <input type="number" class="form-control" id="bookQuantityInput" aria-describedby="bookQuantity" placeholder="Zadaj počet na sklade.." required [(ngModel)]="quantityInStock" name="quantityInStock">
     </div>
     <div class="form-group col-2">
-      <label for="bookPriceInput">Cena</label>
+      <label for="bookPriceInput">Cena*</label>
       <input type="number" class="form-control" id="bookPriceInput" aria-describedby="bookPrice" placeholder="Zadaj cenu knihy.." required [(ngModel)]="price" name="price">
     </div>
     <div class="form-group col-3">
@@ -42,7 +42,7 @@
   </div>
   <div class="row justify-content-center">
     <div class="col-3">
-      <label for="bookFormatSelect">Formát knihy</label>
+      <label for="bookFormatSelect">Formát knihy*</label>
       <select class="form-control" id="bookFormatSelect" [(ngModel)]="format" name="bookFormat">
         <option value="Book">Kniha</option>
         <option value="Audiobook">Audiokniha</option>
@@ -50,7 +50,7 @@
       </select>
     </div>
     <div class="col-2">
-      <label for="bookLanguageSelect">Jazyk knihy</label>
+      <label for="bookLanguageSelect">Jazyk knihy*</label>
       <select class="form-control" id="bookLanguageSelect" [(ngModel)]="language" name="bookLanguage">
         <option value="English">Angličtina</option>
         <option value="Slovak">Slovenčina</option>
@@ -84,10 +84,19 @@
       <label for="bookDescriptionInput">Popis knihy</label>
       <textarea class="form-control" id="bookDescriptionInput" aria-describedby="bookDescription" placeholder="Popis knihy" required [(ngModel)]="description" name="description"></textarea>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-auto py-3">
-        <button type="submit" class="btn btn-primary send-button">Pridaj knihu</button>
-      </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-7 mt-3 px-0">
+      <label for="formFileLg" class="form-label">Obrázok obálky knihy</label>
+      <input class="form-control form-control" id="formFile" type="file" #fileInput (change)="onFileChange($event)">
+    </div>
+    <div class="col-1 mt-3 position-relative px-0">
+      <button type="button" class="btn remove-btn position-absolute bottom-0 start-0" (click)="removeImgSelection()">Odstráň</button>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-auto py-3">
+      <button type="submit" class="btn btn-primary send-button">Pridaj knihu</button>
     </div>
   </div>
 </form>

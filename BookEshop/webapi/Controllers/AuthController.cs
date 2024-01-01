@@ -6,12 +6,13 @@ using webapi.Service;
 namespace webapi.Controllers
 {
     [ApiController]
-    public class UserController : ExceptionHandlingControllerBase
+    //[Route("api")]
+    public class AuthController : ExceptionHandlingControllerBase
     {
 
         private readonly ISqlService SqlService;
 
-        public UserController(ISqlService varSqlService)
+        public AuthController(ISqlService varSqlService, IJwtService varJwtService)
         {
             this.SqlService = varSqlService;
         }
@@ -22,7 +23,13 @@ namespace webapi.Controllers
             return await HandleExceptionAsync(async () =>
             {
                 var result = await SqlService.Login(userInfo);
-                return Ok(result);
+
+
+                return Ok(new
+                {
+                    Token = result,
+                    Message = "Úspešné prihlásenie!"
+                });
             });
                 
             

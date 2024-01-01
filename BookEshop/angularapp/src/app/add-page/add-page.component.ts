@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { BookFormat } from '../interfaces/Enums/book-format.enum';
 import { BookLanguage } from '../interfaces/Enums/book-language.enum';
 import { Genre } from '../interfaces/Enums/genre.enum';
@@ -33,6 +33,13 @@ export class AddPageComponent {
 
   bookAuthors: Author[] = [];
 
+  bookImage: File | undefined = undefined;
+
+  bookId: number = 0;
+
+  @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement> | undefined;
+  isChecked: boolean = false;
+
   constructor(private bookPageService: BookPageService, private notificationService: NotificationService) { }
 
   onSubmit(): void {
@@ -51,20 +58,51 @@ export class AddPageComponent {
       bookFormat: this.format,
       publicationDate: this.publicationDate,
       bookLanguage: this.language,
-      booksAuthors: this.bookAuthors
+      booksAuthors: this.bookAuthors,
     };
 
     console.log(book);
+    console.log(this.bookImage);
 
     this.bookPageService.saveBookInDB(book).subscribe({
-      next: (response: Book) => {
+      next: (response: any) => {
+        console.log(response);
         this.notificationService.displayMessage("Kniha bola pridaná do databázy!", "info");
-        window.location.reload();
+
+        if (response.bookId != null && response.bookId > 0) {
+          this.bookId = response.bookId;
+
+          var formData = new FormData();
+          formData.append('bookId', this.bookId.toString());
+          formData.append('coverImage', this.bookImage as Blob);
+
+          this.bookPageService.saveBookPictureInDB(formData).subscribe({
+            next: (response: any) => {
+
+            },
+            error: (error: any) => {
+
+            }
+          });
+        }
       },
       error: (error: any) => {
         this.notificationService.displayMessage("Knihu sa nepodarilo pridať do databázy!", "warning");
+        console.log(error);
       }
     });
+  }
+
+  removeImgSelection() {
+    if (this.fileInput) {
+      this.bookImage = undefined;
+      this.fileInput.nativeElement.value = "";
+    }
+  }
+
+
+  onFileChange(event: any) {
+    this.bookImage = event.target.files[0];
   }
 
   mapBookAuthors(authorsString: string): Author[] {

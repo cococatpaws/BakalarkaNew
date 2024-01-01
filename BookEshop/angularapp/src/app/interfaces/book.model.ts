@@ -17,4 +17,6 @@ export interface Book {
   publicationDate?: any;
   bookLanguage?: BookLanguage;
   booksAuthors?: Author[];
+  deleteImage?: boolean;
+  //coverImage?: File;
 }

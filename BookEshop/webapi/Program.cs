@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Text.Json.Serialization;
 using webapi.Data;
 using webapi.Service;
@@ -25,7 +28,30 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+
+builder.Services.AddSingleton<IAzureBlobService, AzureBlobService>();
+
+builder.Services.AddSingleton<IJwtService, JwtService>();
 builder.Services.AddScoped<ISqlService, SqlService>();
+
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("veryverysecret...")),
+        ValidateAudience = false,
+        ValidateIssuer = false
+    };
+});
+
+
 
 var app = builder.Build();
 
@@ -36,9 +62,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+/*app.UsePathBase(new PathString("/api"));
+app.UseRouting();*/
+
 app.UseCors("BookOrigins");
 
 app.UseHttpsRedirection();
+
+//toto som pridala kvoli jwttokenom a autentifikacii
+app.UseAuthentication();
 
 app.UseAuthorization();
 

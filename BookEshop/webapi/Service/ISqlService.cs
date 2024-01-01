@@ -10,9 +10,10 @@ namespace webapi.Service
         public Task<ActionResult<List<Book>>> GetAllBooksWithAuthors();
         public Task<ActionResult<Book>> GetBookByID(int bookId);
         public Task<ActionResult<Book>> AddBook(BookResponse model);
+        public Task<bool> SaveBookCover(BookCoverResponse model);
         public Task<bool> DeleteBook(int bookId);
         public Task<bool> EditBook(BookResponse book);
-        public Task<ActionResult<User>> Login(Login userInfo);
+        public Task<string> Login(Login userInfo);
         public Task<bool> Register(Register register);
         public Task<bool> CheckExistence(string variableToCheck, string typeOfObject);
 
