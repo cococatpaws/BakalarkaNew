@@ -16,3 +16,10 @@ textarea#bookDescriptionInput {
 .form-control, .remove-btn {
   height: 40px;
 }
+
+
+
+.input {
+    color: red;
+    border-color:red;
+}

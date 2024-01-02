@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, Subject, map, tap } from 'rxjs';
 import { Book } from '../interfaces/book.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookPageService {
+  private bookDeletedSource$ = new Subject<number>();
+
   private apiUrl = 'https://localhost:7073'; // to kde mi bezi backend
+  
 
   constructor(private http: HttpClient) { }
 
-  getAllBooksWithAuthors(): Observable<Book[]> {
+  getAllBooksWithAuthors(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/knihy`).pipe(
       map(response => {
         if (response && response.value && response.value.$values) {
@@ -38,6 +41,18 @@ export class BookPageService {
 
   deleteBook(bookId: number) {
     return this.http.delete<number>(`${this.apiUrl}/knihy`, { body: bookId });
+  }
+
+  setBookDeleted(bookId: number) {
+    this.bookDeletedSource$.next(bookId);
+  }
+
+  getBookDeleted() {
+    return this.bookDeletedSource$.asObservable();
+  }
+
+  setDeletedBook(bookId: number) {
+    this.deleteBook
   }
 
   getBookById(bookId: number): Observable<any> {

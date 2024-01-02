@@ -11,16 +11,9 @@ namespace webapi.Models
         public int UserTypeId { get; set; }
 
         // Relationships
-        [ForeignKey("ShippingAddressId")]
-        [Column("id_shipping_adress")]
-        public int ShippingAddressIdUser { get; set; }
-
-        [ForeignKey("BillingAddressId")]
-        [Column("id_billing_address")]
-        public int BillingAddressIdUser { get; set; }
-
-        public ShippingAddress ShippingAddress { get; set; }
-        public BillingAddress BillingAddress { get; set; }
+        public List<ShippingAddress> ShippingAddresses { get; set; }
+        public List<BillingAddress> BillingAddresses { get; set; }
+        public List<Order> Orders { get; set; }
 
     }
 }

@@ -1,0 +1,30 @@
+<div class="content">
+  <div class="row justify-content-between">
+
+    <div class="col-auto">
+      <div class="row justify-content-right px-0">
+        <div class="col-auto">
+          <h5>Si si istý, že chceš vymazať knihu: </h5>
+        </div>
+      </div>
+      <div class="row justify-content-left px-0">
+        <div class="col-auto">
+          <span>{{data.bookName}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="row justify-content-end px-0">
+        <div class="col-auto">
+          <button class="btn" (click)="closeDialog()"><i class="bi bi-x-lg"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-end px-0">
+    <div class="col-auto">
+      <button (click)="delete()" class="btn-icon"><i class="bi bi-trash"></i></button>
+    </div>
+  </div>
+</div>
+

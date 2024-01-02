@@ -48,7 +48,6 @@ export class EditBookPageComponent {
 
     this.bookPageService.getBookById(this.bookId).subscribe(response => {
       this.mapResponse(response);
-      console.log(response);
     });
   }
 
@@ -72,8 +71,6 @@ export class EditBookPageComponent {
     this.bookAuthors = this.mapBookAuthors(this.authorsString);
     this.book.booksAuthors = this.bookAuthors;
 
-    console.log(this.book);
-
     this.bookPageService.editBookInDB(this.book).subscribe({
       next: (response: any) => {
         this.notificationService.displayMessage("Informácie o knihe bolo úspešne zmenené!", "success");
@@ -96,7 +93,6 @@ export class EditBookPageComponent {
       },
       error: (error: any) => {
         this.notificationService.displayMessage("Info o knihe sa nepodarilo zmeniť!", "warning");
-        console.log(error);
       }
     });
   }

@@ -11,11 +11,8 @@ export class AuthGuard implements CanActivate {
 
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    console.log(sessionStorage);
     if (this.authentificationDataService.getIsLoggedIn()) {
       // Check if the user has the required role(s)
-      console.log("test");
-      console.log("Rola: " + this.authService.getRole());
       var userRole = "";
 
       this.authentificationDataService.getRole().subscribe(response => {
@@ -28,7 +25,6 @@ export class AuthGuard implements CanActivate {
         return true;
       } else {
         // Redirect to unauthorized page or handle it in a way that fits your application
-        console.log("Unaithorized");
         this.router.navigate(['/home']);
         return false;
       }

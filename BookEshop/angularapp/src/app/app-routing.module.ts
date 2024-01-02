@@ -9,6 +9,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { AuthGuard } from './guards/auth.guard';
 import { BookPageComponent } from './book-page/book-page.component';
 import { ShoppingBasketComponent } from './shopping-basket/shopping-basket.component';
+import { OrderPageComponent } from './order/order-page/order-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'uprav-knihu/:id', component: EditBookPageComponent, canActivate: [AuthGuard], data: { requiredRoles: ['Admin'] } },
   { path: 'registracia', component: RegistrationComponent },
   { path: 'zobraz-knihu/:id', component: BookPageComponent },
-  { path: 'nakupny-kosik', component: ShoppingBasketComponent}
+  { path: 'nakupny-kosik', component: ShoppingBasketComponent },
+  { path: 'objednavka', component: OrderPageComponent}
 ];
 
 @NgModule({

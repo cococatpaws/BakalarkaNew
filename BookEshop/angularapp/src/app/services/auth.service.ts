@@ -20,7 +20,7 @@ export class AuthService {
   constructor(private http: HttpClient, private authDataService: AuthDataService, private router: Router, private notificationService: NotificationService) {
   }
 
-  login(data: Login): Observable<any> {
+  login(data: any): Observable<any> {
     return this.http.post<Login>(`${this.apiUrl}/login`, data);
   }
 
@@ -49,9 +49,7 @@ export class AuthService {
 
   tokenDecoding() {
     const tokenToDecode = this.getToken()!
-    console.log("Token: " + tokenToDecode)
     var decodedToken = this.jwtHelper.decodeToken(tokenToDecode);
-    console.log("dekodovany token: " + JSON.stringify(decodedToken, null, 2));
     return this.jwtHelper.decodeToken(tokenToDecode);
     
   }
@@ -66,9 +64,6 @@ export class AuthService {
 
   initializeAuthDataAfterReload() {
     this.decodedToken = this.tokenDecoding();
-    console.log("Rola v auth: " + this.getRole());
-    console.log("Username v auth: " + this.getUsername());
-
     this.authDataService.setData(this.getUsername(), this.getRole(), true)
   }
 }

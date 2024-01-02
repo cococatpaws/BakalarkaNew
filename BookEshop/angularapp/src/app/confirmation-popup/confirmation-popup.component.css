@@ -1,0 +1,27 @@
+.content {
+    padding: 1.5vw;
+}
+
+.inner-content {
+    padding:0;
+}
+
+.btn-icon {
+  margin-top: 0.8vw;
+  width: 35px;
+  height: 35px;
+  padding: 5px 5px;
+  border-radius: 35px;
+  font-size: 1.2em;
+  text-align: center;
+  line-height: 0.8;
+  border: solid 1px gray;
+}
+
+i {
+    color: orange;
+}
+
+.btn {
+    padding: 0vw;
+}

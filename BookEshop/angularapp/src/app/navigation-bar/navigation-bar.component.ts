@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
 import { AuthDataService } from '../services/auth-data.service';
 import { AuthService } from '../services/auth.service';
+import { ShoppingBasketService } from '../services/shopping-basket.service';
 
 
 @Component({
@@ -15,17 +16,20 @@ export class NavigationBarComponent {
   filter: string = "Názov";
   drodpownOptions: string[] = ["Názov", "Autor"];
   role: string = "";
+  numberOfItems: number = 0;
 
-  constructor(private router: Router, private dialog: MatDialog, private authDataService: AuthDataService, private authService: AuthService) { }
+  constructor(private router: Router, private dialog: MatDialog, private authDataService: AuthDataService, private authService: AuthService,
+                private shoppingBasketService: ShoppingBasketService) { }
 
   ngOnInit() {
-    console.log(sessionStorage);
-
     this.authDataService.getRole().subscribe(response =>
     {
       this.role = response
-      console.log("Rola: " + this.role);
     })
+
+    this.shoppingBasketService.getTotalNumberOfItems().subscribe(response => {
+      this.numberOfItems = response;
+    });
   }
 
   menuItems: { text: string; link: string; disabled?: boolean }[] = [

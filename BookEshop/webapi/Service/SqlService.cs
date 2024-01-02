@@ -1,17 +1,13 @@
 ﻿using webapi.Data;
 using webapi.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using webapi.Migrations;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using webapi.Models.ResponseModels;
+using webapi.Models.UtilityModels;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using webapi.Enums;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System.Net;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using webapi.Models.ResponseModels;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Win32;
 
 namespace webapi.Service
@@ -33,10 +29,20 @@ namespace webapi.Service
         {
             return await dbContext.Books.ToListAsync();
         }
-        public async Task<ActionResult<List<Book>>> GetAllBooksWithAuthors()
+        public async Task<ActionResult<List<BookResponse>>> GetAllBooksWithAuthors()
         {
-            return await dbContext.Books.Include(b => b.BooksAuthors).ThenInclude(ba => ba.Author) // Přidáme zahrnutí autorů
+            var books = await dbContext.Books.Include(b => b.BooksAuthors).ThenInclude(ba => ba.Author) // Přidáme zahrnutí autorů
            .ToListAsync();
+
+            var booksWithoutOrders = books.Select(b => new BookResponse
+            {
+               BookId= b.BookId,
+               Title= b.Title,
+               Price= b.Price,
+
+            }).ToList();
+
+            return booksWithoutOrders;
         }
 
         public async Task<ActionResult<Book>> GetBookByID(int bookId)
@@ -406,6 +412,7 @@ namespace webapi.Service
 
         public async Task<bool> Register(Register register)
         {
+
             try
             {
                 if (register != null && register.UserName != null && register.Password != null && register.Name != null && register.Surname != null && register.Email != null && register.PhoneNumber != null
@@ -435,7 +442,17 @@ namespace webapi.Service
 
                     await dbContext.PersonalInfo.AddAsync(personalInfo);
 
-                    //Shipping address
+                    var userType = new UserType
+                    {
+                    };
+
+                    await dbContext.UserTypes.AddAsync(userType);
+                    await dbContext.SaveChangesAsync();
+
+                    var userTypeDB = await dbContext.UserTypes.OrderBy(ut => ut.UserTypeId).LastOrDefaultAsync();
+
+
+                    //Address
                     var addressSh = new Address
                     {
                         Country = register.Country,
@@ -449,10 +466,12 @@ namespace webapi.Service
                     await dbContext.SaveChangesAsync();
                     var addressShipping = await dbContext.Addresses.OrderBy(ad => ad.AddressId).LastOrDefaultAsync();
 
+                    //Shipping address
                     var shippingAddress = new ShippingAddress
                     {
                         AddressIdS = addressShipping!.AddressId,
                         ShippingDetails = "",
+                        UserTypeId = userTypeDB!.UserTypeId
                     };
 
                     await dbContext.ShippingAddresses.AddAsync(shippingAddress);
@@ -475,6 +494,7 @@ namespace webapi.Service
                     var billingAddress = new BillingAddress
                     {
                         AddressIdB = addressBilling!.AddressId,
+                        UserTypeId = userTypeDB!.UserTypeId
                     };
 
                     await dbContext.BillingAddresses.AddAsync(billingAddress);
@@ -483,18 +503,7 @@ namespace webapi.Service
                     //UserType
                     var billingAddressDB = await dbContext.BillingAddresses.OrderBy(ba => ba.AddressIdB).LastOrDefaultAsync();
                     var shippingAddressDB = await dbContext.ShippingAddresses.OrderBy(sa => sa.AddressIdS).LastOrDefaultAsync();
-
-                    var userType = new UserType
-                    {
-                        ShippingAddress = shippingAddressDB,
-                        BillingAddress = billingAddressDB,
-                    };
-
-                    await dbContext.UserTypes.AddAsync(userType);
-                    await dbContext.SaveChangesAsync();
                     
-
-                    var userTypeDB = await dbContext.UserTypes.OrderBy(ut => ut.UserTypeId).LastOrDefaultAsync();
                     var personalInfoDB = await dbContext.PersonalInfo.OrderBy(pi => pi.PersonalInfoId).LastOrDefaultAsync();
                     var password = register.Password;
                     var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13);
@@ -551,6 +560,258 @@ namespace webapi.Service
                 }
             }
             return false;
+        }
+
+        public async Task<bool> Order(OrderResponse order)
+        {
+            try
+            {
+                if (order.Username != null)
+                {
+                    webapi.Models.BillingAddress billingAddressDB = new BillingAddress { };
+                    webapi.Models.ShippingAddress shippingAddressDB = new ShippingAddress { };
+
+                    var existingUser = await dbContext.Users.FirstOrDefaultAsync(u => u.UserName == order.Username);
+                    var existingShippingAddress = await dbContext.ShippingAddresses.OrderBy(sa => sa.ShippingAddressId).LastOrDefaultAsync(sa => sa.UserTypeId == existingUser!.UserTypeIdUser);
+                    if (existingShippingAddress != null)
+                    {
+                        var existingAddress = await dbContext.Addresses.FirstOrDefaultAsync(a => a.AddressId == existingShippingAddress.AddressIdS);
+                        if (existingAddress.AddressNumber == order.AddressNumber && existingAddress.Country == order.Country && existingAddress.City == order.City
+                            && existingAddress.Street == order.Street)
+                        {
+                            billingAddressDB = await dbContext.BillingAddresses.OrderBy(ba => ba.BillingAddressId).LastOrDefaultAsync(ba => ba.UserTypeId == existingUser.UserTypeIdUser);
+                            shippingAddressDB = await dbContext.ShippingAddresses.OrderBy(sa => sa.ShippingAddressId).LastOrDefaultAsync(sa => sa.UserTypeId == existingUser.UserTypeIdUser);
+                            
+                        } else
+                        {
+                            var addressSh = new Address
+                            {
+                                Country = order.Country,
+                                City = order.City,
+                                Street = order.Street,
+                                AddressNumber = order.AddressNumber,
+                                PostCode = order.PostCode
+                            };
+
+                            await dbContext.Addresses.AddAsync(addressSh);
+                            await dbContext.SaveChangesAsync();
+                            var addressShipping = await dbContext.Addresses.OrderBy(ad => ad.AddressId).LastOrDefaultAsync();
+
+                            //Shipping address
+
+                            var shippingAddress = new ShippingAddress
+                            {
+                                AddressIdS = addressShipping!.AddressId,
+                                ShippingDetails = "",
+                                UserTypeId = existingUser.UserTypeIdUser
+                            };
+
+                            await dbContext.ShippingAddresses.AddAsync(shippingAddress);
+                            await dbContext.SaveChangesAsync();
+
+                            //Billing Address
+                            var addressBi = new Address
+                            {
+                                Country = order.Country,
+                                City = order.City,
+                                Street = order.Street,
+                                AddressNumber = order.AddressNumber,
+                                PostCode = order.PostCode
+                            };
+
+                            await dbContext.Addresses.AddAsync(addressBi);
+                            await dbContext.SaveChangesAsync();
+                            var addressBilling = await dbContext.Addresses.OrderBy(ad => ad.AddressId).LastOrDefaultAsync();
+
+                            var billingAddress = new BillingAddress
+                            {
+                                AddressIdB = addressBilling!.AddressId,
+                                UserTypeId = (int)existingUser.UserTypeIdUser
+                            };
+
+                            await dbContext.BillingAddresses.AddAsync(billingAddress);
+                            await dbContext.SaveChangesAsync();
+
+                            //UserType
+                            billingAddressDB = await dbContext.BillingAddresses.OrderBy(ba => ba.AddressIdB).LastOrDefaultAsync();
+                            shippingAddressDB = await dbContext.ShippingAddresses.OrderBy(sa => sa.AddressIdS).LastOrDefaultAsync();
+                        }
+                    }
+
+                        var orderVar = new Order
+                        {
+                            PaymentTypeId = order.PaymentTypeId,
+                            ShippingTypeId = order.ShippingTypeId,
+                            UserTypeId = existingUser.UserTypeIdUser,
+                            DatePlaced = DateTime.Now,
+                            OrderStatus = "OrderCreated",
+                            OrderType = order.OrderType,
+                            OrderDetails = order.OrderDetails,
+                            ShippingAddressIdO = shippingAddressDB!.ShippingAddressId,
+                            BillingAddressIdO = billingAddressDB.BillingAddressId,
+                            ShippingAddress = shippingAddressDB,
+                            BillingAddress = billingAddressDB,
+                        };
+
+                        await dbContext.Order.AddAsync(orderVar);
+                        await dbContext.SaveChangesAsync();
+                        var orderDb = await dbContext.Order.OrderBy(o => o.OrderID).LastOrDefaultAsync();
+
+                        var varOrderBooks = order.BooksInOrder.Select((bookInOrder, index) =>
+                        {
+                            var existingBook = dbContext.Books.FirstOrDefault(b => b.BookId == bookInOrder.BookId);
+
+                            if (existingBook != null)
+                            {
+                                var varOrderBook = new Order_Book
+                                {
+                                    OrderId = orderDb.OrderID,
+                                    Order = orderDb,
+                                    BookId = existingBook.BookId,
+                                    Book = existingBook,
+                                    BookPrice = bookInOrder.BookPrice,
+                                    QuantityOrdered = bookInOrder.QuantityOrdered
+                                };
+                                return varOrderBook;
+                            }
+
+                            return null;
+                        }).Where(orderBook => orderBook != null).ToList();
+
+                        dbContext.Orders_Books.AddRange(varOrderBooks);
+                        await dbContext.SaveChangesAsync();
+                    return true;
+                } else
+                {
+                    var userType = new UserType { };
+                    await dbContext.UserTypes.AddAsync(userType);
+                    await dbContext.SaveChangesAsync();
+
+                    var userTypeDB = await dbContext.UserTypes.OrderBy(ut => ut.UserTypeId).LastOrDefaultAsync();
+
+                    var personalInfo = new PersonalInfo
+                    {
+                        Name = order.Name,
+                        Surname = order.Surname,
+                        Email = order.Email,
+                        PhoneNumber = order.PhoneNumber
+                    };
+
+                    await dbContext.PersonalInfo.AddAsync(personalInfo);
+                    await dbContext.SaveChangesAsync();
+
+                    var personalInfoDB = await dbContext.PersonalInfo.OrderBy(pi => pi.PersonalInfoId).LastOrDefaultAsync();
+
+
+                    var temporatyUser = new TemporaryUser
+                    {
+                        UserTypeIdTempUser = userTypeDB!.UserTypeId,
+                        PersonalInfoIdTempUser = personalInfoDB!.PersonalInfoId
+                    };
+
+                    await dbContext.TemporaryUsers.AddAsync(temporatyUser);
+                    await dbContext.SaveChangesAsync();
+
+                    var addressSh = new Address
+                    {
+                        Country = order.Country,
+                        City = order.City,
+                        Street = order.Street,
+                        AddressNumber = order.AddressNumber,
+                        PostCode = order.PostCode
+                    };
+
+                    await dbContext.Addresses.AddAsync(addressSh);
+                    await dbContext.SaveChangesAsync();
+                    var addressShipping = await dbContext.Addresses.OrderBy(ad => ad.AddressId).LastOrDefaultAsync();
+
+                    //Shipping address
+                    var shippingAddress = new ShippingAddress
+                    {
+                        AddressIdS = addressShipping!.AddressId,
+                        ShippingDetails = "",
+                        UserTypeId = userTypeDB!.UserTypeId
+                    };
+
+                    await dbContext.ShippingAddresses.AddAsync(shippingAddress);
+                    await dbContext.SaveChangesAsync();
+
+                    //Billing Address
+                    var addressBi = new Address
+                    {
+                        Country = order.Country,
+                        City = order.City,
+                        Street = order.Street,
+                        AddressNumber = order.AddressNumber,
+                        PostCode = order.PostCode
+                    };
+
+                    await dbContext.Addresses.AddAsync(addressBi);
+                    await dbContext.SaveChangesAsync();
+                    var addressBilling = await dbContext.Addresses.OrderBy(ad => ad.AddressId).LastOrDefaultAsync();
+
+                    var billingAddress = new BillingAddress
+                    {
+                        AddressIdB = addressBilling!.AddressId,
+                        UserTypeId = userTypeDB!.UserTypeId
+                    };
+
+                    await dbContext.BillingAddresses.AddAsync(billingAddress);
+                    await dbContext.SaveChangesAsync();
+
+                    //UserType
+                    var billingAddressDB = await dbContext.BillingAddresses.OrderBy(ba => ba.AddressIdB).LastOrDefaultAsync();
+                    var shippingAddressDB = await dbContext.ShippingAddresses.OrderBy(sa => sa.AddressIdS).LastOrDefaultAsync();
+
+                    var orderVar = new Order
+                    {
+                        PaymentTypeId = order.PaymentTypeId,
+                        ShippingTypeId = order.ShippingTypeId,
+                        UserTypeId = userTypeDB.UserTypeId,
+                        DatePlaced = DateTime.Now,
+                        OrderStatus = "OrderCreated",
+                        OrderType = order.OrderType,
+                        OrderDetails = order.OrderDetails,
+                        ShippingAddressIdO = shippingAddressDB.ShippingAddressId,
+                        BillingAddressIdO = billingAddressDB.BillingAddressId,
+                        ShippingAddress = shippingAddressDB,
+                        BillingAddress = billingAddressDB,
+                    };
+
+                    await dbContext.Order.AddAsync(orderVar);
+                    await dbContext.SaveChangesAsync();
+                    var orderDb = await dbContext.Order.OrderBy(o => o.OrderID).LastOrDefaultAsync();
+
+                    var varOrderBooks = order.BooksInOrder.Select((bookInOrder, index) =>
+                    {
+                        var existingBook = dbContext.Books.FirstOrDefault(b => b.BookId == bookInOrder.BookId);
+
+                        if (existingBook != null)
+                        {
+                            var varOrderBook = new Order_Book
+                            {
+                                OrderId = orderDb.OrderID,
+                                Order = orderDb,
+                                BookId = existingBook.BookId,
+                                Book = existingBook,
+                                BookPrice = bookInOrder.BookPrice,
+                                QuantityOrdered = bookInOrder.QuantityOrdered
+                            };
+                            return varOrderBook;
+                        }
+
+                        return null;
+                    }).Where(orderBook => orderBook != null).ToList();
+
+                    dbContext.Orders_Books.AddRange(varOrderBooks);
+                    await dbContext.SaveChangesAsync();
+
+                    return true;
+                }
+            } catch
+            {
+                throw new CustomException(StatusCodes.Status500InternalServerError, "Error");
+            }
         }
 
     }

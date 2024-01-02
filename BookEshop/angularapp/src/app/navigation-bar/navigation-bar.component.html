@@ -23,7 +23,8 @@
         </div>
       </div>
       <div class="col-auto align-self-end d-none d-md-block">
-        <button class="btn btn-dark shopping_basket" routerLink="/nakupny-kosik"><i class="bi bi-basket"></i> Nákupný košík</button>
+        <button *ngIf="numberOfItems == 0" class="btn btn-dark shopping_basket" routerLink="/nakupny-kosik"><i class="bi bi-basket"></i> Nákupný košík</button>
+        <button *ngIf="numberOfItems > 0" class="btn btn-dark shopping_basket" routerLink="/nakupny-kosik"><i class="bi bi-basket"></i> Nákupný košík {{numberOfItems}}</button>
       </div>
     </div>
   </div>

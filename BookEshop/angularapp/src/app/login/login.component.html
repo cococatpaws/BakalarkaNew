@@ -7,33 +7,37 @@
     </div>
   </div>
   <div class="inner">
-    <form class="example-form">
+    <form [formGroup]="loginForm">
       <div class="row justify-content-center mx-0 my-0">
         <div class="col-auto">
           <h5>Prihlásenie</h5>
         </div>
       </div>
-      <div class="row justify-content-center mx-0 my-0">
-        <div class="col-auto">
-          <mat-form-field>
-            <mat-label>Prihlasovacie Meno</mat-label>
-            <input matInput placeholder="Zadaj prihlasovacie meno" name="usename" [(ngModel)]="usernameL">
-          </mat-form-field>
+        <div class="row justify-content-center mx-0 my-0">
+          <div class="col-auto">
+            <mat-form-field>
+              <mat-label>Prihlasovacie Meno</mat-label>
+              <input formControlName="username" matInput placeholder="Zadaj prihlasovacie meno" type="text">
+            </mat-form-field>
+          </div>
         </div>
-      </div>
-      <div class="row justify-content-center mx-0 my-0">
-        <div class="col-auto">
-          <mat-form-field>
-            <mat-label>Heslo</mat-label>
-            <input matInput placeholder="Zadaj heslo" value="" name="password" type="password" [(ngModel)]="passwordL">
-          </mat-form-field>
+        <small *ngIf="loginForm.controls['username'].touched && loginForm.hasError('required', 'username')" class="text-danger">*Používateľské meno musí byť zadané!</small>
+        <div class="row justify-content-center mx-0 my-0">
+          <div class="col-auto">
+            <mat-form-field>
+              <mat-label>Heslo</mat-label>
+              <input formControlName="password" matInput placeholder="Zadaj heslo" type="password">
+            </mat-form-field>
+          </div>
         </div>
-      </div>
-      <div class="row justify-content-center mx-0 my-0">
-        <div class="col-auto">
-          <button mat-raised-button (click)="submit()">Prihlásiť sa</button>
+        <small *ngIf="loginForm.controls['password'].touched && loginForm.hasError('required', 'password')" class="text-danger">*Heslo musí byť zadané!</small>
+        <div class="row justify-content-center mx-0 my-0">
+          <div class="col-auto">
+            <button [disabled]="loginForm.invalid" mat-raised-button (click)="submit()">Prihlásiť sa</button>
+          </div>
         </div>
-      </div>
+      
+      
       <div class="row justify-content-center mx-0 my-0">
         <div class="col-auto mt-2">
           <span class="login-valid" *ngIf="show">Prihlásenie úspešné</span>

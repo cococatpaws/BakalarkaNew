@@ -30,7 +30,6 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 
 builder.Services.AddSingleton<IAzureBlobService, AzureBlobService>();
-
 builder.Services.AddSingleton<IJwtService, JwtService>();
 builder.Services.AddScoped<ISqlService, SqlService>();
 

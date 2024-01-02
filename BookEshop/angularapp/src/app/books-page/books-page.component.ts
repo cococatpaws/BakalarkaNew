@@ -4,6 +4,8 @@ import { BookPageService } from '../services/book-page.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
 import { AuthDataService } from '../services/auth-data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
 
 @Component({
   selector: 'app-books-page',
@@ -23,7 +25,7 @@ export class BooksPageComponent {
   books: Book[] = [];
 
   constructor(private bookPageService: BookPageService, private router: Router, private notificationService: NotificationService,
-                private authDataService: AuthDataService) { }
+    private authDataService: AuthDataService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getBooks();
@@ -32,8 +34,6 @@ export class BooksPageComponent {
       this.role = response
       
     });
-    console.log(this.role);
-    console.log(sessionStorage);
   }
 
   getBooks(): void {
@@ -46,30 +46,17 @@ export class BooksPageComponent {
       }
     );
 
-    console.log(this.books);
   }
 
   showSidebar() {
     this.sidebarShown = !this.sidebarShown;
-    console.log(this.sidebarShown);
   }
 
-  deleteBook(bookId: number | undefined): void {
-    if (bookId != undefined) {
-      this.bookPageService.deleteBook(bookId).subscribe({
-        next: () => {
-          setTimeout(() => {
-            window.location.reload();
-          }, 500)
-
-          this.notificationService.displayMessage("Kniha bola úspešne odstránená!", "success");
-        },
-        error: (error) => {
-          this.notificationService.displayMessage("Nastala chyba pri odstraňovaní knihy!", "warning");
-          console.log(error);
-        },
-      });
-    }
+  openDeletePopup(bookId: number | undefined, bookName: string): void {
+    this.dialog.open(ConfirmationPopupComponent, {
+      disableClose: true,
+      data: { bookId: bookId, bookName: bookName }
+    });
   }
 
   editBook(bookId: number | undefined): void {
@@ -79,4 +66,6 @@ export class BooksPageComponent {
   displayBook(bookId: number | undefined): void {
     this.router.navigate(['/zobraz-knihu', bookId]);
   }
+
+  
 }

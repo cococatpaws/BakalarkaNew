@@ -1,4 +1,4 @@
-﻿namespace webapi.Models
+﻿namespace webapi.Models.UtilityModels
 {
     public class CustomException : Exception
     {

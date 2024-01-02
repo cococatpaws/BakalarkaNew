@@ -11,6 +11,5 @@ export class InStoreReservationComponent {
 
   showSidebar() {
     this.sidebarShown = !this.sidebarShown;
-    console.log(this.sidebarShown);
   }
 }

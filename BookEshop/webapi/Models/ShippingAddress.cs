@@ -21,5 +21,11 @@ namespace webapi.Models
         public int AddressIdS { get; set; }
         public Address Address { get; set; }
 
+        [Column("id_user_type")]
+        public int UserTypeId { get; set; }
+        public UserType UserType { get; set; }
+
+        public List<Order> Orders { get; set; }
+
     }
 }

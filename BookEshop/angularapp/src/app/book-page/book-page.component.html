@@ -35,7 +35,7 @@
         </div>
         <div class="col-auto">
           <button *ngIf="book.quantityInStock == 0" disabled>Pridať do košíka</button>
-          <button *ngIf="book.quantityInStock > 0">Pridať do košíka</button>
+          <button *ngIf="book.quantityInStock > 0" (click)="addToBasket()">Pridať do košíka</button>
         </div>
 
 

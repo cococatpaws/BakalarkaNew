@@ -1,0 +1,178 @@
+<div class="content">
+  <div class="p-5">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="fw-bold mb-0 text-black">Zhrnutie objednávky</h3>
+    </div>
+    <div *ngFor="let book of itemList">
+      <hr class="my-4">
+      <div class="row mb-4 d-flex justify-content-between align-items-center">
+        <div class="col-md-1 col-lg-1 col-xl-1">
+          <img src="{{book.imageURL}}"
+               class="img-fluid rounded-3" alt="book">
+        </div>
+        <div class="col-md-3 col-lg-3 col-xl-3">
+          <h6 class="text-black">{{book.bookTitle}}</h6>
+
+        </div>
+        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+          <h6 class="px-2 pt-3">Počet kusov: {{book.bookQuantity}}</h6>
+        </div>
+        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+          <h6 class="mb-0">{{book.totalPrice}} €</h6>
+        </div>
+      </div>
+    </div>
+    <hr class="my-4">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+      <h5 class="fw-bold mb-0 text-black">Spolu: {{totalPrice}}€</h5>
+    </div>
+    <hr class="my-4">
+    <section class="order-form m-4">
+      <div class="container pt-4">
+        <div class="row">
+          <div class="col-12 px-4">
+            <h1>Objednávka</h1>
+            <hr class="mt-1" />
+          </div>
+
+          <div class="col-12">
+            <div class="row mx-4">
+              <div class="col-12 px-4">
+                <h3>Osobné údaje</h3>
+                <hr class="mt-1" />
+              </div>
+            </div>
+            <form [formGroup]="orderForm">
+              <div class="row mx-4">
+                <div class="col-sm-6">
+                  <div class="form-outline">
+                    <label class="form-label" for="form1">Meno*</label>
+                    <input formControlName="name" type="text" id="form1" class="form-control order-form-input" />
+                  </div>
+                </div>
+                <div class="col-sm-6 mt-2 mt-sm-0">
+                  <div class="form-outline">
+                    <label class="form-label" for="form2">Priezvisko*</label>
+                    <input formControlName="surname" type="text" id="form2" class="form-control order-form-input" />
+                  </div>
+                </div>
+              </div>
+              <div class="row mx-4">
+                <div class="col-sm-12">
+                  <div class="form-outline">
+                    <label class="form-label" for="form1">Telefónne číslo*</label>
+                    <input formControlName="phoneNumber" type="text" id="form1" class="form-control order-form-input" />
+                  </div>*
+                </div>
+              </div>
+              <div class="row mx-4">
+                <div class="col-sm-12">
+                  <div class="form-outline">
+                    <label class="form-label" for="form1">Email*</label>
+                    <input formControlName="email" type="text" id="form1" class="form-control order-form-input" />
+                  </div>
+                </div>
+              </div>
+              <div class="row mx-4">
+                <div class="col-12 px-4">
+                  <h3>Dodacie údaje</h3>
+                  <hr class="mt-1" />
+                </div>
+              </div>
+              <div class="row mt-3 mx-4">
+                <div class="col-12">
+                  <label class="order-form-label">Adresa*</label>
+                </div>
+                <div class="col-12">
+                  <div class="form-outline">
+                    <label class="form-label" for="form5">Ulica*</label>
+                    <input formControlName="street" type="text" id="form5" class="form-control order-form-input" />
+                  </div>
+                </div>
+                <div class="col-12 mt-2">
+                  <div class="form-outline">
+                    <label class="form-label" for="form6">Číslo domu*</label>
+                    <input formControlName="addressNumber" type="text" id="form6" class="form-control order-form-input" />
+                  </div>
+                </div>
+                <div class="col-sm-6 mt-2 pe-sm-2">
+                  <div class="form-outline">
+                    <label class="form-label" for="form7">Mesto*</label>
+                    <input formControlName="city" type="text" id="form7" class="form-control order-form-input" />
+                  </div>
+                </div>
+                <div class="col-sm-6 mt-2 pe-sm-2">
+                  <div class="form-outline">
+                    <label class="form-label" for="form9">PSČ*</label>
+                    <input formControlName="postCode" type="text" id="form9" class="form-control order-form-input" />
+                  </div>
+                </div>
+                <div class="col-sm-12 mt-2 ps-sm-2">
+                  <div class="form-outline">
+                    <label class="form-label" for="form10">Krajina*</label>
+                    <select formControlName="country" class="form-control" placeholder="Krajina">
+                      <option value="" disabled selected>Vyberte krajinu</option>
+                      <option value="Slovakia">Slovensko</option>
+                      <option value="Czech republic">Česko</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-12 mt-2 pe-sm-2">
+                  <div class="form-outline">
+                    <label class="form-label" for="form9">Dodatočné informácie</label>
+                    <textarea formControlName="orderDetails" type="text" id="form9" class="form-control order-form-input"></textarea>
+                  </div>
+                </div>
+                <div class="col-12 px-4">
+                  <h3>Možnosti dodania</h3>
+                  <hr class="mt-1" />
+                </div>
+                <div class="col-sm-4 mt-2 ps-sm-0">
+                  <div class="form-outline">
+                    <label class="form-label" for="form10">Spôsob platby*</label>
+                    <select formControlName="paymentTypeId" class="form-control" placeholder="Krajina">
+                      <option value="" disabled selected>Vyberte krajinu</option>
+                      <option value="1">Prevod na bankový účet</option>
+                      <option value="2">Dobierka</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-4 mt-2 ps-sm-0">
+                  <div class="form-outline">
+                    <label class="form-label" for="form10">Druh objednávky*</label>
+                    <select formControlName="orderType" class="form-control" placeholder="Krajina">
+                      <option value="HomeDeliver">Doručenie domov</option>
+                      <option value="StorePickup">Doručenie na predajňu</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-4 mt-2 ps-sm-0">
+                  <div class="form-outline">
+                    <label class="form-label" for="form10">Spôsob dodania*</label>
+                    <select formControlName="shippingTypeId" class="form-control" placeholder="Krajina">
+                      <option value="1">GLS Kuriér</option>
+                      <option value="2">Slovenská pošta</option>
+                      <option value="3">SPS Kuriér</option>
+                      <option value="4">Osobné vyzdvihnutie</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <button type="button" class="btn btn-primary d-block mx-auto btn-submit" (click)="onSubmit()">Objednať s povinnosťou platby</button>
+                </div>
+              </div>
+            </form> 
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+
+
+  
+  
+</div>

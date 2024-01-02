@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -26,6 +26,9 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BookPageComponent } from './book-page/book-page.component';
 import { ShoppingBasketComponent } from './shopping-basket/shopping-basket.component';
+import { OrderPageComponent } from './order/order-page/order-page.component';
+import { ConfirmationPopupComponent } from './confirmation-popup/confirmation-popup.component';
+import { ShoppingBasketItemComponent } from './shopping-basket-item/shopping-basket-item.component';
 
 @NgModule({
   declarations: [
@@ -43,11 +46,14 @@ import { ShoppingBasketComponent } from './shopping-basket/shopping-basket.compo
     LoginComponent,
     RegistrationComponent,
     BookPageComponent,
-    ShoppingBasketComponent
+    ShoppingBasketComponent,
+    OrderPageComponent,
+    ConfirmationPopupComponent,
+    ShoppingBasketItemComponent,
   ],
   imports: [
     BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, BrowserAnimationsModule, MatDialogModule, MatFormFieldModule, MatInputModule,
-    MatButtonModule, MatSnackBarModule
+    MatButtonModule, MatSnackBarModule, ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

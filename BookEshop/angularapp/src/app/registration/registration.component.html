@@ -1,4 +1,4 @@
-<form class="px-3 py-3" (ngSubmit)="onSubmit()">
+<form [formGroup]="registrationForm" class="px-3 py-3" (ngSubmit)="onSubmit()">
   <div class="row justify-content-center">
     <div class="col-auto py-2">
       <h2>Registrácia</h2>
@@ -6,72 +6,153 @@
   </div>
   <div class="row justify-content-center">
     <div class="form-group col-8">
-      <input type="text" class="form-control" id="usernameInput" aria-describedby="username" placeholder="Používateľské meno" required [(ngModel)]="usernameR" name="username">
+      <hr />
     </div>
   </div>
   <div class="row justify-content-center">
     <div class="form-group col-8">
-      <input type="email" class="form-control" id="emailInput" aria-describedby="email" placeholder="Email" required [(ngModel)]="emailR" name="Email">
+      <h4>Osobné údaje</h4>
+    </div>
+  </div>
+  <div class="row justify-content-center input-field">
+    <div class="form-group col-8">
+      <label>Používateľské meno*</label>
+      <div [class.field-error]="registrationForm.controls['username'].touched && registrationForm.hasError('required', 'username') || registrationForm.hasError('minlength', 'username') || registrationForm.hasError('maxlength', 'username')">
+        <input formControlName="username" type="text" class="form-control" placeholder="Zadaj používateľské meno..">
+      </div>
+      <small *ngIf="registrationForm.controls['username'].touched && registrationForm.hasError('required', 'username')" class="text-danger">Používateľské meno je povinné!</small>
+      <small *ngIf="registrationForm.controls['username'].touched && registrationForm.hasError('minlength', 'username')" class="text-danger">Používateľské meno musí mať minimálne 3 znaky!</small>
+      <small *ngIf="registrationForm.controls['username'].touched && registrationForm.hasError('maxlength', 'username')" class="text-danger">Používateľské meno môže mať maximálne 30 znakov!</small>
+    </div>
+    </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <label>Heslo*</label>
+      <div class="input-field" [class.field-error]="registrationForm.controls['password'].touched && registrationForm.hasError('required', 'password') || registrationForm.hasError('minlength','password')">
+        <input formControlName="password" type="password" class="form-control" placeholder="Heslo*">
+      </div>
+      <small *ngIf="registrationForm.controls['password'].touched && registrationForm.hasError('required', 'password')" class="text-danger">Heslo je povinné!</small>
+      <small *ngIf="registrationForm.controls['password'].touched && registrationForm.hasError('minlength', 'password')" class="text-danger">Heslo musí mať minimálne 8 znakov!</small>
+    </div>
+    </div>
+  <h6>
+    {{ registrationForm.get('password')?.value }} <!-- This should display the value of the password control -->
+    {{ registrationForm.get('passwordRepeat')?.value }}
+  </h6>
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <label>Heslo znova*</label>
+      <div class="input-field" [class.field-error]="registrationForm.controls['passwordRepeat'].touched && registrationForm.hasError('required', 'passwordRepeat') ">
+        <input formControlName="passwordRepeat" type="password" class="form-control" placeholder="Zopakuj heslo*">
+      </div>
+      <small *ngIf="registrationForm.controls['passwordRepeat'].touched && registrationForm.hasError('required', 'passwordRepeat')" class="text-danger">Zopakovanie hesla je povinné!</small>
+    </div>
+    </div>
+  <div class="row justify-content-center">
+    <div class="form-group col-4">
+      <label>Meno*</label>
+      <div class="input-field" [class.field-error]="registrationForm.controls['name'].touched && registrationForm.hasError('required', 'name') || registrationForm.hasError('maxlength', 'name')">
+        <input formControlName="name" type="text" class="form-control" placeholder="Meno*">
+      </div>
+      <small *ngIf="registrationForm.controls['name'].touched && registrationForm.hasError('required', 'name')" class="text-danger">Meno je povinné!</small>
+      <small *ngIf="registrationForm.controls['name'].touched && registrationForm.hasError('maxlength', 'name')" class="text-danger">Používateľské meno môže mať maximálne 50 znakov!</small>
+    </div>
+    <div class="form-group col-4">
+      <label>Priezvisko*</label>
+      <div class="input-field" [class.field-error]="registrationForm.controls['surname'].touched && registrationForm.hasError('required', 'surname') || registrationForm.hasError('maxlength', 'surname')">
+        <input formControlName="surname" type="text" class="form-control" placeholder="Priezvisko*">
+      </div>
+      <small *ngIf="registrationForm.controls['surname'].touched && registrationForm.hasError('required', 'surname')" class="text-danger">Priezvisko je povinné!</small>
+      <small *ngIf="registrationForm.controls['surname'].touched && registrationForm.hasError('maxlength', 'surname')" class="text-danger">Priezvisko meno môže mať maximálne 50 znakov!</small>
+
     </div>
   </div>
   <div class="row justify-content-center">
     <div class="form-group col-8">
-      <input type="password" class="form-control" id="passwordInput" aria-describedby="password" placeholder="Heslo" required [(ngModel)]="passwordR" name="password">
+      <label>Email*</label>
+      <div [class.field-error]="registrationForm.controls['email'].touched && registrationForm.hasError('required', 'email') || registrationForm.hasError('maxlength', 'email')">
+        <input formControlName="email" type="email" class="form-control" placeholder="Zadaj email..">
+      </div>
+      <small *ngIf="registrationForm.controls['email'].touched && registrationForm.hasError('required', 'email')" class="text-danger">Email je povinný!</small>
+      <small *ngIf="registrationForm.controls['email'].touched && registrationForm.hasError('maxlength', 'email')" class="text-danger">Email meno môže mať maximálne 50 znakov!</small>
+      <small *ngIf="registrationForm.hasError('email', 'email')">Neplatný mail!</small>
     </div>
   </div>
   <div class="row justify-content-center">
     <div class="form-group col-8">
-      <input type="password" class="form-control" id="passwordConfirmInput" aria-describedby="passwordConfirm" placeholder="Zopakuj heslo" required [(ngModel)]="passwordConfirmR" name="passwordConfirm">
+      <label>Telefónne číslo*</label>
+      <div [class.field-error]="registrationForm.controls['phoneNumber'].touched && registrationForm.hasError('required', 'phoneNumber') || registrationForm.hasError('maxlength', 'phoneNumber')">
+        <input formControlName="phoneNumber" type="text" class="form-control" id="phoneNumberInput" placeholder="Telefónne číslo*">
+      </div>
+      <small *ngIf="registrationForm.controls['phoneNumber'].touched && registrationForm.hasError('required', 'phoneNumber')" class="text-danger">Telefónne číslo je povinné!</small>
+      <small *ngIf="registrationForm.controls['phoneNumber'].touched && registrationForm.hasError('maxlength', 'phoneNumber')" class="text-danger">Telefónne číslo meno môže mať maximálne 13 znakov!</small>
+    </div>
+    </div>
+
+  <div class="row justify-content-center">
+    <div class="form-group col-8">
+      <hr />
     </div>
   </div>
   <div class="row justify-content-center">
     <div class="form-group col-8">
-      <input type="text" class="form-control" id="nameInput" aria-describedby="name" placeholder="Meno" required [(ngModel)]="nameR" name="name">
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="form-group col-8">
-      <input type="text" class="form-control" id="surnameInput" aria-describedby="surname" placeholder="Priezvisko" required [(ngModel)]="surnameR" name="surname">
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="form-group col-8">
-      <input type="text" class="form-control" id="phoneNumberInput" aria-describedby="phoneNumber" placeholder="Telefónne číslo" required [(ngModel)]="phoneNumberR" name="phoneNumber">
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="form-group col-8">
-      <input type="text" class="form-control" id="streetInput" aria-describedby="street" placeholder="Ulica" required [(ngModel)]="streetR" name="street">
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="form-group col-8">
-      <input type="text" class="form-control" id="addressNumberInput" aria-describedby="addressNumber" placeholder="Číslo domu" required [(ngModel)]="addressNumberR" name="addressNumber">
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="form-group col-8">
-      <input type="text" class="form-control" id="cityInput" aria-describedby="city" placeholder="Mesto" required [(ngModel)]="cityR" name="city">
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="form-group col-8">
-      <input type="text" class="form-control" id="postCodeInput" aria-describedby="postCode" placeholder="PSČ" required [(ngModel)]="postCodeR" name="postCode">
+      <h4>Adresa</h4>
     </div>
   </div>
 
   <div class="row justify-content-center">
-    <div class="col-3">
-      <select class="form-control" id="countrySelect" placeholder="Krajina" [(ngModel)]="countryR" name="country">
-        <option value="" disabled selected>Vyberte krajinu</option>
-        <option value="Slovakia">Slovensko</option>
-        <option value="Czech republic">Česko</option>
-      </select>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-auto py-3">
-        <button type="submit" class="btn btn-primary send-button">Zaregistruj</button>
+    <div class="form-group col-6">
+      <label>Ulica*</label>
+      <div [class.field-error]="registrationForm.controls['street'].touched && registrationForm.hasError('required', 'street') || registrationForm.hasError('maxlength', 'street')">
+        <input formControlName="street" type="text" class="form-control" placeholder="Ulica*">
       </div>
+      <small *ngIf="registrationForm.controls['street'].touched && registrationForm.hasError('required', 'street')" class="text-danger">Ulica je povinná!</small>
+      <small *ngIf="registrationForm.controls['street'].touched && registrationForm.hasError('maxlength', 'street')" class="text-danger">Ulica môže mať maximálne 50 znakov!</small>
+    </div>
+    <div class="form-group col-2">
+      <label>Číslo domu*</label>
+      <div [class.field-error]="registrationForm.controls['addressNumber'].touched && registrationForm.hasError('required', 'addressNumber') || registrationForm.hasError('maxlength', 'addressNumber')">
+        <input formControlName="addressNumber" type="text" class="form-control" placeholder="Číslo domu*">
+      </div>
+      <small *ngIf="registrationForm.controls['addressNumber'].touched && registrationForm.hasError('required', 'addressNumber')" class="text-danger">Číslo domu je povinné!</small>
+      <small *ngIf="registrationForm.controls['addressNumber'].touched && registrationForm.hasError('maxlength', 'addressNumber')" class="text-danger">Číslo domu môže mať maximálne 10 znakov!</small>
     </div>
   </div>
+    
+  <div class="row justify-content-center">
+    <div class="form-group col-6">
+      <label>Mesto*</label>
+      <div [class.field-error]="registrationForm.controls['city'].touched && registrationForm.hasError('required', 'city') || registrationForm.hasError('maxlength', 'city')">
+        <input formControlName="city" type="text" class="form-control" placeholder="Mesto*">
+      </div>
+      <small *ngIf="registrationForm.controls['city'].touched && registrationForm.hasError('required', 'city')" class="text-danger">Mesto je povinné!</small>
+      <small *ngIf="registrationForm.controls['city'].touched && registrationForm.hasError('maxlength', 'city')" class="text-danger">Mesto môže mať maximálne 50 znakov!</small>
+    </div>
+    <div class="form-group col-2">
+      <label>PSČ*</label>
+      <div [class.field-error]="registrationForm.controls['postCode'].touched && registrationForm.hasError('required', 'postCode') || registrationForm.hasError('maxlength', 'name')">
+        <input formControlName="postCode" type="text" class="form-control" placeholder="PSČ*">
+      </div>
+      <small *ngIf="registrationForm.controls['postCode'].touched && registrationForm.hasError('required', 'postCode')" class="text-danger">PSČ je povinné!</small>
+      <small *ngIf="registrationForm.controls['postCode'].touched && registrationForm.hasError('maxlength', 'postCode')" class="text-danger">PSČ môže mať maximálne 5 znakov!</small>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <label>Krajina</label>
+      <div [class.field-error]="registrationForm.controls['country'].touched && registrationForm.hasError('required', 'country') ">
+        <select formControlName="country" class="form-control" placeholder="Krajina*">
+          <option value="" disabled selected>Vyberte krajinu</option>
+          <option value="Slovakia">Slovensko</option>
+          <option value="Czech republic">Česko</option>
+        </select>
+      </div>
+      <small *ngIf="registrationForm.controls['country'].touched && registrationForm.hasError('required', 'country')" class="text-danger">Krajina je povinná!</small>
+    </div>
+      <div class="row justify-content-center">
+        <div class="col-auto py-3">
+          <button [disabled]="registrationForm.invalid" type="submit" class="btn btn-primary send-button">Zaregistruj</button>
+        </div>
+      </div>
+    </div>
 </form>

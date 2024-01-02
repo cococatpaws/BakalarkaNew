@@ -12,8 +12,8 @@ using webapi.Data;
 namespace webapi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231230142727_LoginTables")]
-    partial class LoginTables
+    [Migration("20240102153554_Test")]
+    partial class Test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,10 +112,16 @@ namespace webapi.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_address");
 
+                    b.Property<int>("UserTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("id_user_type");
+
                     b.HasKey("BillingAddressId");
 
                     b.HasIndex("AddressIdB")
                         .IsUnique();
+
+                    b.HasIndex("UserTypeId");
 
                     b.ToTable("billing_address");
                 });
@@ -208,6 +214,134 @@ namespace webapi.Migrations
                     b.ToTable("books_authors");
                 });
 
+            modelBuilder.Entity("webapi.Models.Order", b =>
+                {
+                    b.Property<int>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id_order");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
+
+                    b.Property<int>("BillingAddressIdO")
+                        .HasColumnType("int")
+                        .HasColumnName("id_billing_address");
+
+                    b.Property<DateTime?>("DatePlaced")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date_placed");
+
+                    b.Property<string>("OrderDetails")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("order_details");
+
+                    b.Property<string>("OrderStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("order_status");
+
+                    b.Property<string>("OrderType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("order_type");
+
+                    b.Property<int>("PaymentTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("id_payment_type");
+
+                    b.Property<int>("ShippingAddressIdO")
+                        .HasColumnType("int")
+                        .HasColumnName("id_shipping_address");
+
+                    b.Property<int>("ShippingTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("id_shipping_type");
+
+                    b.Property<int>("UserTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("id_user_type");
+
+                    b.HasKey("OrderID");
+
+                    b.HasIndex("BillingAddressIdO");
+
+                    b.HasIndex("PaymentTypeId");
+
+                    b.HasIndex("ShippingAddressIdO");
+
+                    b.HasIndex("ShippingTypeId");
+
+                    b.HasIndex("UserTypeId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("webapi.Models.Order_Book", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int")
+                        .HasColumnName("id_order");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int")
+                        .HasColumnName("id_book");
+
+                    b.Property<double>("BookPrice")
+                        .HasColumnType("float")
+                        .HasColumnName("book_price");
+
+                    b.Property<int>("QuantityOrdered")
+                        .HasColumnType("int")
+                        .HasColumnName("quantity_ordered");
+
+                    b.HasKey("OrderId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Orders_Books");
+                });
+
+            modelBuilder.Entity("webapi.Models.PaymentType", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id_payment");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
+
+                    b.Property<double>("AdditionalCost")
+                        .HasColumnType("float")
+                        .HasColumnName("additional_cost");
+
+                    b.Property<string>("PaymentTypeVar")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("payment_type");
+
+                    b.HasKey("PaymentId");
+
+                    b.ToTable("PaymentType");
+
+                    b.HasData(
+                        new
+                        {
+                            PaymentId = 1,
+                            AdditionalCost = 0.0,
+                            PaymentTypeVar = "CardTransfer"
+                        },
+                        new
+                        {
+                            PaymentId = 2,
+                            AdditionalCost = 1.5,
+                            PaymentTypeVar = "CashOnDelivery"
+                        });
+                });
+
             modelBuilder.Entity("webapi.Models.PersonalInfo", b =>
                 {
                     b.Property<int>("PersonalInfoId")
@@ -265,12 +399,68 @@ namespace webapi.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasColumnName("shipping_details");
 
+                    b.Property<int>("UserTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("id_user_type");
+
                     b.HasKey("ShippingAddressId");
 
                     b.HasIndex("AddressIdS")
                         .IsUnique();
 
+                    b.HasIndex("UserTypeId");
+
                     b.ToTable("shipping_address");
+                });
+
+            modelBuilder.Entity("webapi.Models.ShippingType", b =>
+                {
+                    b.Property<int>("ShippingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id_shipping");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShippingId"));
+
+                    b.Property<double>("ShippingCost")
+                        .HasColumnType("float")
+                        .HasColumnName("shipping_cost");
+
+                    b.Property<string>("ShippingTypeVar")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("shipping_type");
+
+                    b.HasKey("ShippingId");
+
+                    b.ToTable("ShippingType");
+
+                    b.HasData(
+                        new
+                        {
+                            ShippingId = 1,
+                            ShippingCost = 4.9900000000000002,
+                            ShippingTypeVar = "GLS"
+                        },
+                        new
+                        {
+                            ShippingId = 2,
+                            ShippingCost = 4.4900000000000002,
+                            ShippingTypeVar = "Post"
+                        },
+                        new
+                        {
+                            ShippingId = 3,
+                            ShippingCost = 4.4900000000000002,
+                            ShippingTypeVar = "SPS"
+                        },
+                        new
+                        {
+                            ShippingId = 4,
+                            ShippingCost = 0.0,
+                            ShippingTypeVar = "PersonalPickup"
+                        });
                 });
 
             modelBuilder.Entity("webapi.Models.TemporaryUser", b =>
@@ -341,21 +531,7 @@ namespace webapi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserTypeId"));
 
-                    b.Property<int>("BillingAddressIdUser")
-                        .HasColumnType("int")
-                        .HasColumnName("id_billing_address");
-
-                    b.Property<int>("ShippingAddressIdUser")
-                        .HasColumnType("int")
-                        .HasColumnName("id_shipping_adress");
-
                     b.HasKey("UserTypeId");
-
-                    b.HasIndex("BillingAddressIdUser")
-                        .IsUnique();
-
-                    b.HasIndex("ShippingAddressIdUser")
-                        .IsUnique();
 
                     b.ToTable("user_type");
                 });
@@ -368,7 +544,15 @@ namespace webapi.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("webapi.Models.UserType", "UserType")
+                        .WithMany("BillingAddresses")
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Address");
+
+                    b.Navigation("UserType");
                 });
 
             modelBuilder.Entity("webapi.Models.Book_Author", b =>
@@ -390,6 +574,68 @@ namespace webapi.Migrations
                     b.Navigation("Book");
                 });
 
+            modelBuilder.Entity("webapi.Models.Order", b =>
+                {
+                    b.HasOne("webapi.Models.BillingAddress", "BillingAddress")
+                        .WithMany("Orders")
+                        .HasForeignKey("BillingAddressIdO")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("webapi.Models.PaymentType", "PaymentType")
+                        .WithMany("Orders")
+                        .HasForeignKey("PaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("webapi.Models.ShippingAddress", "ShippingAddress")
+                        .WithMany("Orders")
+                        .HasForeignKey("ShippingAddressIdO")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("webapi.Models.ShippingType", "ShippingType")
+                        .WithMany("Orders")
+                        .HasForeignKey("ShippingTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("webapi.Models.UserType", "UserType")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BillingAddress");
+
+                    b.Navigation("PaymentType");
+
+                    b.Navigation("ShippingAddress");
+
+                    b.Navigation("ShippingType");
+
+                    b.Navigation("UserType");
+                });
+
+            modelBuilder.Entity("webapi.Models.Order_Book", b =>
+                {
+                    b.HasOne("webapi.Models.Book", "Book")
+                        .WithMany("OrdersBooks")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("webapi.Models.Order", "Order")
+                        .WithMany("OrdersBooks")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("webapi.Models.ShippingAddress", b =>
                 {
                     b.HasOne("webapi.Models.Address", "Address")
@@ -398,7 +644,15 @@ namespace webapi.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("webapi.Models.UserType", "UserType")
+                        .WithMany("ShippingAddresses")
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Address");
+
+                    b.Navigation("UserType");
                 });
 
             modelBuilder.Entity("webapi.Models.TemporaryUser", b =>
@@ -439,33 +693,50 @@ namespace webapi.Migrations
                     b.Navigation("UserType");
                 });
 
-            modelBuilder.Entity("webapi.Models.UserType", b =>
-                {
-                    b.HasOne("webapi.Models.BillingAddress", "BillingAddress")
-                        .WithOne()
-                        .HasForeignKey("webapi.Models.UserType", "BillingAddressIdUser")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("webapi.Models.ShippingAddress", "ShippingAddress")
-                        .WithOne()
-                        .HasForeignKey("webapi.Models.UserType", "ShippingAddressIdUser")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("BillingAddress");
-
-                    b.Navigation("ShippingAddress");
-                });
-
             modelBuilder.Entity("webapi.Models.Author", b =>
                 {
                     b.Navigation("Books_Authors");
                 });
 
+            modelBuilder.Entity("webapi.Models.BillingAddress", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("webapi.Models.Book", b =>
                 {
                     b.Navigation("BooksAuthors");
+
+                    b.Navigation("OrdersBooks");
+                });
+
+            modelBuilder.Entity("webapi.Models.Order", b =>
+                {
+                    b.Navigation("OrdersBooks");
+                });
+
+            modelBuilder.Entity("webapi.Models.PaymentType", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("webapi.Models.ShippingAddress", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("webapi.Models.ShippingType", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("webapi.Models.UserType", b =>
+                {
+                    b.Navigation("BillingAddresses");
+
+                    b.Navigation("Orders");
+
+                    b.Navigation("ShippingAddresses");
                 });
 #pragma warning restore 612, 618
         }

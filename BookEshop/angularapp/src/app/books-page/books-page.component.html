@@ -90,7 +90,7 @@
           </a>
           <div class="row">
             <div class="col-auto">
-              <button *ngIf="role == 'Admin'" (click)="deleteBook(book.bookId)" class="btn-icon"><i class="bi bi-trash"></i></button>
+              <button *ngIf="role == 'Admin'" (click)="openDeletePopup(book.bookId, book.title)" class="btn-icon"><i class="bi bi-trash"></i></button>
             </div>
             <div class="col-auto px-0">
               <button *ngIf="role == 'Admin'" (click)="editBook(book.bookId)" class="btn-icon"><i class="bi bi-pen"></i></button>

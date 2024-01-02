@@ -45,5 +45,7 @@ namespace webapi.Models
 
         //Relationships
         public List<Book_Author> BooksAuthors { get; set; }
+
+        public List<Order_Book> OrdersBooks { get; set; }
     }
 }

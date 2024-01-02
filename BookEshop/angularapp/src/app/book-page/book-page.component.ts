@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
 import { Author } from '../interfaces/author.model';
 import { Book } from '../interfaces/book.model';
+import { ShoppingBasketService } from '../services/shopping-basket.service';
+import { ShoppingBasketItem } from '../interfaces/shopping-basket-item';
 
 @Component({
   selector: 'app-book-page',
@@ -12,6 +14,7 @@ import { Book } from '../interfaces/book.model';
 })
 export class BookPageComponent {
   book: Book = {
+    bookId: 0,
     title: "",
     description: "",
     quantityInStock: 0,
@@ -25,24 +28,21 @@ export class BookPageComponent {
     booksAuthors: undefined,
     coverImageURL: ""
   };
-  ;
 
   authorsString: string = '';
-
   bookAuthors: Author[] = [];
 
-  bookId: number = 0;
-
-  constructor(private bookPageService: BookPageService, private route: ActivatedRoute, private notificationService: NotificationService) { }
+  constructor(private bookPageService: BookPageService, private route: ActivatedRoute, private notificationService: NotificationService,
+    private shoppingBasketService: ShoppingBasketService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.bookId = +params['id'];
+      this.book.bookId = +params['id'];
     });
 
-    this.bookPageService.getBookById(this.bookId).subscribe(response => {
+    if (this.book.bookId != undefined)
+    this.bookPageService.getBookById(this.book.bookId).subscribe(response => {
       this.mapResponse(response);
-      console.log(response);
     }
 
     );
@@ -59,7 +59,6 @@ export class BookPageComponent {
       },
       error: (error: any) => {
         this.notificationService.displayMessage("Info o knihe sa nepodarilo zmeniť!", "warning");
-        console.log(error);
       }
     });
   }
@@ -122,5 +121,20 @@ export class BookPageComponent {
     };
 
     return this.book;
+  }
+
+  addToBasket() {
+    var shoppingBasketItem: ShoppingBasketItem = {
+      bookId: this.book.bookId!,
+      bookTitle: this.book.title,
+      bookAuthors: this.book.booksAuthors!,
+      bookQuantity: 1,
+      price: this.book.price,
+      totalPrice: this.book.price,
+      imageURL: this.book.coverImageURL
+    };
+
+    if (this.book.bookId != undefined)
+      this.shoppingBasketService.saveBookWithExpiration(this.book.bookId.toString(), shoppingBasketItem, 24);
   }
 }

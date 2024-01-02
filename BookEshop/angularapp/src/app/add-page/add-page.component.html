@@ -1,4 +1,4 @@
-<form class="px-3 py-3" (ngSubmit)="onSubmit()">
+<form [formGroup]="bookForm" class="px-3 py-3" (ngSubmit)="onSubmit()">
   <div class="row justify-content-center">
     <div class="col-auto py-2">
       <h2>Pridanie knihy do DB</h2>
@@ -6,85 +6,118 @@
   </div>
   <div class="row justify-content-center">
     <div class="form-group col-8">
-      <label for="bookTitleInput">Názov knihy*</label>
-      <input type="text" class="form-control" id="bookTitleInput" aria-describedby="bookTitle" placeholder="Zadaj názov knihy.." required [(ngModel)]="title" name="title">
+      <label for="title">Názov knihy*</label>
+      <div [class.field-error]="bookForm.controls['title'].touched && bookForm.hasError('required', 'title')">
+        <input formControlName="title" type="text" class="form-control" placeholder="Zadaj názov knihy...">
+      </div>
+      <small *ngIf="bookForm.controls['title'].touched && bookForm.hasError('required', 'title')" class="text-danger">Názov knihy je povinný!</small>
     </div>
   </div>
   <div class="row justify-content-center">
     <div class="form-group col-8">
       <label for="bookAuthorsInput">Autori knihy*</label>
-      <input type="text" class="form-control" id="bookAuthorsInput" aria-describedby="bookAuthors" placeholder="Zadajte autorov knihy oddelených čiarkou.." required [(ngModel)]="selectedAuthors" name="selectedAuthors">
+      <div [class.field-error]="bookForm.controls['booksAuthors'].touched && bookForm.hasError('required', 'booksAuthors')">
+        <input formControlName="booksAuthors" type="text" class="form-control" placeholder="Zadajte autorov knihy oddelených čiarkou..">
+        </div>
+        <small *ngIf="bookForm.controls['booksAuthors'].touched && bookForm.hasError('required', 'booksAuthors')" class="text-danger">Autor/i knihy je/sú povinný!</small>
+      </div>
     </div>
-  </div>
   <div class="row justify-content-center">
     <div class="form-group col-5">
-      <label for="bookPublisherInput">Vydavateľ knihy</label>
-      <input type="text" class="form-control" id="bookPublisherInput" aria-describedby="bookPublisher" placeholder="Zadaj vydavateľa knihy.." required [(ngModel)]="publisher" name="publisher">
-    </div>
+      <label for="bookPublisherInput">Vydavateľ knihy*</label>
+      <div [class.field-error]="bookForm.controls['publisher'].touched && bookForm.hasError('required', 'publisher')">
+        <input formControlName="publisher" type="text" class="form-control" placeholder="Zadaj vydavateľa knihy..">
+        </div>
+        <small *ngIf="bookForm.controls['publisher'].touched && bookForm.hasError('required', 'publisher')" class="text-danger">Vydavateľ knihy je povinný!</small>
+      </div>
     <div class="form-group col-3">
       <label for="bookReleaseDateInput">Dátum vydania*</label>
-      <input type="date" class="form-control" id="bookReleaseDateInput" aria-describedby="bookReleaseDate" placeholder="Zadaj dátum vydania.." required [(ngModel)]="publicationDate" name="publicationDate">
+      <div [class.field-error]="bookForm.controls['publicationDate'].touched && bookForm.hasError('required', 'publicationDate')">
+        <input formControlName="publicationDate" type="date" class="form-control" placeholder="Zadaj dátum vydania..">
+        </div>
+        <small *ngIf="bookForm.controls['publicationDate'].touched && bookForm.hasError('required', 'publicationDate')" class="text-danger">Dátum vydania knihy je povinný!</small>
+      </div>
     </div>
-  </div>
   <div class="row justify-content-center">
     <div class="form-group col-3">
       <label for="bookQuantityInput">Počet na sklade*</label>
-      <input type="number" class="form-control" id="bookQuantityInput" aria-describedby="bookQuantity" placeholder="Zadaj počet na sklade.." required [(ngModel)]="quantityInStock" name="quantityInStock">
-    </div>
+      <div [class.field-error]="bookForm.controls['quantityInStock'].touched && bookForm.hasError('required', 'quantityInStock')">
+        <input formControlName="quantityInStock" type="number" class="form-control" placeholder="Zadaj počet na sklade..">
+        </div>
+        <small *ngIf="bookForm.controls['quantityInStock'].touched && bookForm.hasError('required', 'quantityInStock')" class="text-danger">Počet kusov knihy na sklade je povinný!</small>
+      </div>
     <div class="form-group col-2">
       <label for="bookPriceInput">Cena*</label>
-      <input type="number" class="form-control" id="bookPriceInput" aria-describedby="bookPrice" placeholder="Zadaj cenu knihy.." required [(ngModel)]="price" name="price">
-    </div>
+      <div [class.field-error]="bookForm.controls['price'].touched && bookForm.hasError('required', 'price')">
+        <input formControlName="price" type="number" class="form-control" placeholder="Zadaj cenu knihy..">
+        </div>
+        <small *ngIf="bookForm.controls['price'].touched && bookForm.hasError('required', 'price')" class="text-danger">Cena knihy je povinná!</small>
+      </div>
     <div class="form-group col-3">
-      <label for="bookPagesInput">Počet strán</label>
-      <input type="number" class="form-control" id="bookPagesInput" aria-describedby="bookPages" placeholder="Zadaj počet strán knihy.." required [(ngModel)]="numberOfPages" name="numberOfPages">
+      <label for="bookPagesInput">Počet strán*</label>
+      <div [class.field-error]="bookForm.controls['numberOfPages'].touched && bookForm.hasError('required', 'numberOfPages')">
+        <input formControlName="numberOfPages" type="number" class="form-control" placeholder="Zadaj počet strán knihy..">
+        </div>
+        <small *ngIf="bookForm.controls['numberOfPages'].touched && bookForm.hasError('required', 'numberOfPages')" class="text-danger">Počet strán knihy je povinný!</small>
+      </div>
     </div>
-  </div>
   <div class="row justify-content-center">
     <div class="col-3">
       <label for="bookFormatSelect">Formát knihy*</label>
-      <select class="form-control" id="bookFormatSelect" [(ngModel)]="format" name="bookFormat">
-        <option value="Book">Kniha</option>
-        <option value="Audiobook">Audiokniha</option>
-        <option value="Ebook">E-kniha</option>
-      </select>
-    </div>
+      <div [class.field-error]="bookForm.controls['bookFormat'].touched && bookForm.hasError('required', 'bookFormat')">
+        <select formControlName="bookFormat" class="form-control">
+          <option value="Book">Kniha</option>
+          <option value="Audiobook">Audiokniha</option>
+          <option value="Ebook">E-kniha</option>
+        </select>
+        </div>
+        <small *ngIf="bookForm.controls['bookFormat'].touched && bookForm.hasError('required', 'bookFormat')" class="text-danger">Formát knihy je povinný!</small>
+      </div>
     <div class="col-2">
       <label for="bookLanguageSelect">Jazyk knihy*</label>
-      <select class="form-control" id="bookLanguageSelect" [(ngModel)]="language" name="bookLanguage">
-        <option value="English">Angličtina</option>
-        <option value="Slovak">Slovenčina</option>
-        <option value="Czech">Čeština</option>
-        <option value="German">Nemčina</option>
-      </select>
-    </div>
+      <div [class.field-error]="bookForm.controls['bookLanguage'].touched && bookForm.hasError('required', 'bookLanguage')">
+        <select formControlName="bookLanguage" class="form-control">
+          <option value="English">Angličtina</option>
+          <option value="Slovak">Slovenčina</option>
+          <option value="Czech">Čeština</option>
+          <option value="German">Nemčina</option>
+        </select>
+        </div>
+        <small *ngIf="bookForm.controls['bookLanguage'].touched && bookForm.hasError('required', 'bookLanguage')" class="text-danger">Jazyk knihy je povinný!</small>
+      </div>
     <div class="col-3">
-      <label for="bookGenreSelect">Žáner knihy</label>
-      <select class="form-control" id="bookGenreSelect" required [(ngModel)]="genre" name="bookGenre">
-        <option value="Detective">Detektívka</option>
-        <option value="Thriller">Triler</option>
-        <option value="Horror">Horor</option>
-        <option value="Comics">Komiks</option>
-        <option value="Romance">Romantická</option>
-        <option value="Classics">Klasická</option>
-        <option value="Historical">Historická</option>
-        <option value="Poetry">Poézia</option>
-        <option value="Fantasy">Fantasy</option>
-        <option value="Drama">Dráma</option>
-        <option value="SciFi">Sci-fi</option>
-        <option value="Educational">Náučná</option>
-        <option value="Motivational">Motivačná</option>
-        <option value="Textbook">Učebnica</option>
-        <option value="Biography">Biografia</option>
-      </select>
+      <label for="bookGenreSelect">Žáner knihy*</label>
+      <div [class.field-error]="bookForm.controls['genre'].touched && bookForm.hasError('required', 'genre')">
+        <select formControlName="genre" class="form-control">
+          <option value="Detective">Detektívka</option>
+          <option value="Thriller">Triler</option>
+          <option value="Horror">Horor</option>
+          <option value="Comics">Komiks</option>
+          <option value="Romance">Romantická</option>
+          <option value="Classics">Klasická</option>
+          <option value="Historical">Historická</option>
+          <option value="Poetry">Poézia</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Drama">Dráma</option>
+          <option value="SciFi">Sci-fi</option>
+          <option value="Educational">Náučná</option>
+          <option value="Motivational">Motivačná</option>
+          <option value="Textbook">Učebnica</option>
+          <option value="Biography">Biografia</option>
+        </select>
+        </div>
+        <small *ngIf="bookForm.controls['genre'].touched && bookForm.hasError('required', 'genre')" class="text-danger">Žáner knihy je povinný!</small>
+      </div>
     </div>
-  </div>
   <div class="row justify-content-center">
     <div class="col-8">
-      <label for="bookDescriptionInput">Popis knihy</label>
-      <textarea class="form-control" id="bookDescriptionInput" aria-describedby="bookDescription" placeholder="Popis knihy" required [(ngModel)]="description" name="description"></textarea>
+      <label for="bookDescriptionInput">Popis knihy*</label>
+      <div [class.field-error]="bookForm.controls['description'].touched && bookForm.hasError('required', 'description')">
+        <textarea formControlName="description" class="form-control" placeholder="Popis knihy"></textarea>
+        </div>
+        <small *ngIf="bookForm.controls['description'].touched && bookForm.hasError('required', 'description')" class="text-danger">Popis knihy je povinný!</small>
+      </div>
     </div>
-  </div>
   <div class="row justify-content-center">
     <div class="col-7 mt-3 px-0">
       <label for="formFileLg" class="form-label">Obrázok obálky knihy</label>
@@ -96,7 +129,7 @@
   </div>
   <div class="row justify-content-center">
     <div class="col-auto py-3">
-      <button type="submit" class="btn btn-primary send-button">Pridaj knihu</button>
+      <button [disabled]="bookForm.invalid" type="submit" class="btn btn-primary send-button">Pridaj knihu</button>
     </div>
   </div>
 </form>

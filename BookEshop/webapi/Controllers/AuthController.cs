@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using webapi.Models;
 using webapi.Models.ResponseModels;
+using webapi.Models.UtilityModels;
 using webapi.Service;
 
 namespace webapi.Controllers

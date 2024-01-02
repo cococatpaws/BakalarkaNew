@@ -42,3 +42,12 @@ body {
 .custom-alert button {
   color: black !important;
 }
+
+.field-error {
+  border: 1px solid red;
+  border-radius: 5px;
+}
+
+.field-error input::placeholder {
+    color: red;
+}

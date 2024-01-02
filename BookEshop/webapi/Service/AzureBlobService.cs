@@ -1,8 +1,6 @@
-﻿using Azure;
-using Azure.Storage.Blobs;
+﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using System.Data.Common;
-using webapi.Models;
+using webapi.Models.UtilityModels;
 
 namespace webapi.Service
 {
